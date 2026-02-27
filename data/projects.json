@@ -1,0 +1,101 @@
+{
+  "projects": [
+    {
+      "id": "ai-programming",
+      "name": "AI编程工具应用",
+      "role": "AI效能工程师",
+      "period": "2026年初 - 至今",
+      "tags": ["Kiro", "MCP", "Skills", "飞书", "钉钉", "DeepSeek", "Uni-app", "Vue3", "Supabase"],
+      "highlight": true,
+      "subProjects": [
+        {
+          "id": "automation",
+          "title": "办公自动化",
+          "description": "利用AI编程工具对接MCP，或使用Skills对接飞书/钉钉，实现办公流程自动化。",
+          "tags": ["MCP", "Skills", "飞书", "钉钉"],
+          "techStack": ["Kiro", "Cursor", "Trae"]
+        },
+        {
+          "id": "zuihouyici",
+          "title": "最后亿次",
+          "subtitle": "个人小程序（已上架）",
+          "description": "一款以习惯养成为核心的跨平台应用，融合AI陪伴、积分激励、成就系统等功能。以终小喵为灵伴，通过每日打卡、积分兑换奖励、AI对话鼓励等方式，帮助用户建立并坚持良好习惯。",
+          "tags": ["全栈", "已上架"],
+          "techStack": ["Uni-app", "Vue3", "Pinia", "Supabase"],
+          "aiTools": ["Kiro", "Cursor", "DeepSeek"],
+          "platforms": ["H5", "小程序", "App"],
+          "image": "/ady/images/projects/zuihouyici-icon.png",
+          "links": [
+            {
+              "type": "h5",
+              "label": "H5 网页版",
+              "url": "https://yfarer.cn/zhyc"
+            },
+            {
+              "type": "miniapp",
+              "label": "微信小程序",
+              "qrcode": "/ady/images/projects/zuihouyici-qr.png"
+            }
+          ]
+        },
+        {
+          "id": "solar-resume",
+          "title": "岁时记",
+          "subtitle": "二十四节气简历",
+          "description": "使用AI编程工具开发的诗意简历网站，融合二十四节气主题、动态水墨意境、节日特效等中国传统文化元素，主题随时节自动流转，呈现当下最应景的视觉氛围。",
+          "tags": ["前端", "开源"],
+          "techStack": ["React", "TypeScript", "Tailwind CSS", "Vite"],
+          "aiTools": ["Kiro", "Kimi-code"],
+          "platforms": ["H5", "Web"],
+          "image": "/ady/images/projects/ink-resume.png",
+          "links": [
+            {
+              "type": "h5",
+              "label": "在线访问",
+              "url": "https://github.com/yourname/ink-resume"
+            }
+          ]
+        },
+        {
+          "id": "openclaw-telegram-proxy",
+          "title": "OpenClaw Telegram 代理优化",
+          "subtitle": "AI多Agent系统网络架构优化",
+          "description": "针对OpenClaw AI多Agent系统的Telegram连接延迟问题，进行完整的代理架构升级与性能优化。\n\n核心成果：\n• 协议升级：从VMess迁移到VLESS Reality，提升安全性与性能\n• 性能优化：连接延迟从6s+优化到1.6s，提升75%\n• 架构优化：采用systemd服务管理替代Docker，实现7×24小时稳定运行\n• 多节点部署：配置香港/新加坡/日本/美国节点，自动选择最优线路\n\n技术栈：sing-box、Xray、Clash、systemd、Docker、Linux、VLESS、Reality",
+          "tags": ["DevOps", "网络代理", "AI系统架构", "性能优化"],
+          "techStack": ["sing-box", "Xray", "Clash", "systemd", "Docker", "Linux", "VLESS", "Reality"],
+          "aiTools": ["Kimi-code", "Cursor", "Kiro"],
+          "platforms": ["Linux", "VPS", "Ubuntu"]
+        }
+      ]
+    },
+    {
+      "id": "coze-workflow",
+      "name": "Coze工作流与智能体开发",
+      "role": "智能体开发者",
+      "period": "2025年初 - 至今",
+      "tags": ["Coze", "LLM", "Prompt Engineering"],
+      "description": "开发多种AI智能体和工作流应用",
+      "highlight": false,
+      "details": [
+        "茶文化风格化文案生成智能体：解决文案同质化问题，降低人工模仿头部博主语气的成本。",
+        "「家有大猫」沉浸式角色扮演：深度定义角色（如林虎）口癖与性格，设计「好感度」系统，实现高拟真对话。",
+        "智能表格分析工具：利用Coze解析Excel/CSV，通过Prompt引导模型提取结构并计算数据。",
+        "多样化视频工作流：涵盖儿童故事、名人传记、教育火柴人、Sora2电商带货等方向。",
+        "飞书自媒体二创工作流：提取自媒体平台数据，进行二创写入飞书。"
+      ]
+    },
+    {
+      "id": "social-media",
+      "name": "自媒体账号运营",
+      "role": "内容创作者",
+      "period": "2023.06 - 至今",
+      "tags": ["抖音", "快手", "小红书", "AIGC"],
+      "description": "从0到1搭建个人账号，跟进赛道热点与选题，制作发布高质量内容。",
+      "highlight": false,
+      "achievements": [
+        "抖音：单篇阅读量破100万，涨粉2000+",
+        "小红书：单篇阅读量近50万，涨粉600+"
+      ]
+    }
+  ]
+}

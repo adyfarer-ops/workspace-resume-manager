@@ -1,0 +1,37 @@
+{
+  "skills": {
+    "technical": [
+      {
+        "category": "AI 智能体开发",
+        "items": ["n8n", "Dify", "Coze(扣子)", "Workflow编排", "Prompt Engineering", "角色扮演", "任务拆解"]
+      },
+      {
+        "category": "Web 开发",
+        "items": ["Vue3", "HTML5", "CSS3", "JavaScript", "小程序", "Uni-app", "TypeScript", "CSS"]
+      },
+      {
+        "category": "AI 工具使用",
+        "items": ["Kimi.ai", "GPT-4", "Gemini", "Sora2", "即梦", "豆包"]
+      },
+      {
+        "category": "AI 编程工具",
+        "items": ["Cursor", "Trae", "Kiro", "Antigravity"]
+      },
+      {
+        "category": "设计与媒体",
+        "items": ["Figma", "Stitch", "剪映", "抖音运营", "小红书运营"]
+      },
+      {
+        "category": "数据库",
+        "items": ["Supabase", "PostgreSQL"]
+      },
+      {
+        "category": "DevOps",
+        "items": ["Nginx", "Docker", "Linux", "systemd", "VLESS/Xray/sing-box", "网络代理优化", "性能调优", "服务监控"]
+      }
+    ],
+    "soft": ["全栈思维", "产品意识", "团队协作", "技术指导", "自媒体运营"],
+    "languages": ["中文"],
+    "tools": ["Git", "VS Code", "Cursor", "Figma"]
+  }
+}

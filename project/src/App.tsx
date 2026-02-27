@@ -1,0 +1,691 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Sidebar } from './components/Sidebar';
+import { Section } from './components/Section';
+import { ThemeSwitcher } from './components/ThemeSwitcher';
+import { PROFILE_DATA } from './constants';
+import { useProfileData } from './hooks/useProfileData';
+import { BridgeWaterScene } from './components/BridgeWaterScene';
+import { SkillLearningTracker } from './components/SkillLearningTracker';
+import { PDFResumeExport } from './components/PDFResumeExport';
+import { 
+  getThemeById, 
+  calculateCurrentTheme, 
+} from './utils/themeRegistry';
+import { TheEternalTree } from './components/TheEternalTree';
+import { Creature } from './components/Creature';
+import { AtmosphericWords } from './components/AtmosphericWords';
+import { SeasonalParticles } from './components/SeasonalParticles';
+import { ThinHorse } from './components/ThinHorse';
+import { SettingSun } from './components/SettingSun';
+import { LonelyTraveler } from './components/LonelyTraveler';
+import { AncientRoad } from './components/AncientRoad';
+import { WindEffect } from './components/WindEffect';
+import { FestivalGreeting } from './components/FestivalGreeting';
+import { FestivalDecorations } from './components/FestivalDecorations';
+import { InteractionFeedback } from './components/InteractionFeedback';
+import { Fireworks } from './components/Fireworks';
+import { LoadingScreen } from './components/LoadingScreen';
+import { NewYearGreeting } from './components/NewYearGreeting';
+import type { FestivalType } from './types';
+import { 
+  ArrowUpRight,
+  Download,
+  Github,
+  Mail,
+  Phone,
+  Code2,
+  GraduationCap,
+  MapPin
+} from 'lucide-react';
+
+// 电话按钮组件
+function PhoneButton({ phone }: { phone: string }) {
+  const [revealed, setRevealed] = useState(false);
+  const [copied, setCopied] = useState(false);
+  
+  // 直接使用明文
+  const fullPhone = phone;
+  
+  // 脱敏显示
+  const maskedPhone = useMemo(() => {
+    if (fullPhone.length === 11) {
+      return fullPhone.slice(0, 3) + '****' + fullPhone.slice(7);
+    }
+    return fullPhone.slice(0, 3) + '****' + fullPhone.slice(-4);
+  }, [fullPhone]);
+  
+  const handleClick = async () => {
+    if (!revealed) {
+      setRevealed(true);
+      // 复制到剪贴板
+      try {
+        await navigator.clipboard.writeText(fullPhone);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch {}
+    } else {
+      // 已显示则直接拨打电话
+      window.location.href = `tel:${fullPhone}`;
+    }
+  };
+  
+  return (
+    <button 
+      onClick={handleClick}
+      className="relative group flex items-center justify-center gap-3 px-8 py-4 bg-[#1c1917] text-[#e7e5e4] shadow-[4px_4px_0_var(--color-theme-primary)] hover:translate-y-1 hover:shadow-none transition-all"
+      title={revealed ? '点击拨打电话' : '点击显示完整号码'}
+    >
+      <Phone size={18} />
+      <span className="font-serif font-bold tracking-wider">
+        {revealed ? fullPhone : maskedPhone}
+      </span>
+      {copied && (
+        <span className="absolute -top-8 left-1/2 -translate-x-1/2 text-xs bg-stone-800 text-stone-100 px-2 py-1 rounded">
+          已复制
+        </span>
+      )}
+    </button>
+  );
+}
+
+export default function App() {
+  const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState('about');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [themeId, setThemeId] = useState<string>(calculateCurrentTheme());
+  
+  // 从 Supabase 或本地 JSON 获取数据
+  const { data: profileData, loading: profileLoading } = useProfileData();
+
+  // 动态生成个人介绍
+  const generateDynamicAbout = (data: typeof PROFILE_DATA) => {
+    // 获取最新的技能
+    const skillNames = data.skillCategories?.flatMap((cat: any) => 
+      cat.skills?.slice(0, 3).map((s: any) => s.name || s)
+    ) || data.skills?.flatMap((s: any) => s.skills?.slice(0, 3) || []) || [];
+    
+    // 获取最新的项目
+    const latestProjects = data.projects?.slice(0, 2).map((p: any) => p.name) || [];
+    
+    // 获取最新笔记数量
+    const notesCount = data.notes?.length || 0;
+    
+    // 构建动态介绍
+    let about = data.about || '';
+    
+    // 如果有技能数据，添加技能描述
+    if (skillNames.length > 0) {
+      about += ` 目前专注于${skillNames.slice(0, 3).join('、')}等技术领域。`;
+    }
+    
+    // 如果有项目数据，添加项目描述
+    if (latestProjects.length > 0) {
+      about += ` 近期正在开发${latestProjects.join('、')}等项目。`;
+    }
+    
+    // 如果有笔记，添加学习描述
+    if (notesCount > 0) {
+      about += ` 持续学习并记录了${notesCount}篇技术笔记。`;
+    }
+    
+    return about;
+  };
+
+  // 使用 Supabase 数据或本地数据，并动态更新个人介绍
+  const displayData = useMemo(() => {
+    const baseData = profileData || PROFILE_DATA;
+    return {
+      ...baseData,
+      about: generateDynamicAbout(baseData)
+    };
+  }, [profileData]);
+
+  const theme = useMemo(() => getThemeById(themeId), [themeId]);
+
+  // CSS Variables Update
+  useEffect(() => {
+    document.documentElement.style.setProperty('--color-theme-primary', theme.colors.primary);
+    document.documentElement.style.setProperty('--color-theme-secondary', theme.colors.secondary);
+  }, [theme]);
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setActiveSection(id);
+    }
+  };
+
+  return (
+    <>
+      {/* 加载状态 */}
+      <LoadingScreen isLoading={profileLoading} />
+      
+      {/* 手机状态栏背景 */}
+      <div className="fixed top-0 left-0 right-0 h-[env(safe-area-inset-top,0px)] bg-[#e7e5e4] z-[9999]" />
+      
+      <div className="min-h-screen relative overflow-hidden transition-colors duration-1000">
+      <Sidebar 
+        activeSection={activeSection} 
+        onNavigate={scrollToSection}
+        mobileMenuOpen={mobileMenuOpen}
+        setMobileMenuOpen={setMobileMenuOpen}
+        seasonType={theme.type}
+        festivalType={theme.festival ? theme.id : undefined}
+      />
+
+      <ThemeSwitcher currentThemeId={themeId} onThemeChange={setThemeId} />
+      
+      {/* --- LAYERS --- */}
+      
+      {/* 1. Sky Gradient */}
+      <div className={`fixed inset-0 bg-gradient-to-b ${theme.colors.bgGradient} opacity-50 -z-20 transition-all duration-1000`} />
+      
+      {/* 2. Particles */}
+      <SeasonalParticles type={theme.visuals.particles} color={theme.colors.secondary} festivalEffect={theme.festival?.specialEffect} />
+      
+      {/* 3. Atmospheric Words */}
+      <AtmosphericWords keywords={theme.keywords} />
+
+      {/* 4. Wind Effect */}
+      <WindEffect intensity={theme.visuals.wind} />
+
+      {/* 5. Festival Greeting */}
+      <FestivalGreeting festival={theme.festival ? (theme.id as FestivalType) : null} greeting={theme.festival?.greeting || ''} />
+
+      {/* 6. Festival Decorations Overlay */}
+      <FestivalDecorations festivalType={theme.festival ? (theme.id as FestivalType) : null} />
+
+      {/* 春节特别效果 */}
+      <Fireworks isActive={theme.id === 'cny'} />
+      <NewYearGreeting isActive={theme.id === 'cny'} />
+
+      {/* 7. Interaction Feedback */}
+      <InteractionFeedback seasonType={theme.type} themeColors={{ primary: theme.colors.primary, secondary: theme.colors.secondary }} festivalType={theme.festival ? theme.id : undefined} />
+      
+      <main className="relative z-10 md:pr-20 transition-all duration-700">
+        
+        {/* HERO SECTION */}
+        <section id="about" className="min-h-screen relative flex items-center">
+           <div className="absolute top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden scene-transition">
+               {/* Setting Sun (replaces old celestial body) */}
+               <SettingSun config={theme.visuals.sun} />
+               
+               {/* The Creatures */}
+               <Creature type={theme.visuals.creature} seasonType={theme.type} />
+
+               {/* THE ETERNAL TREE */}
+               <TheEternalTree state={theme.visuals.tree} vineColor={theme.colors.vine} windIntensity={theme.visuals.wind} />
+
+               {/* Ancient Road */}
+               <AncientRoad />
+
+               {/* Thin Horse */}
+               <ThinHorse state={theme.visuals.horse} windIntensity={theme.visuals.wind === 'none' ? 0 : theme.visuals.wind === 'gentle' ? 0.3 : theme.visuals.wind === 'moderate' ? 0.6 : 1} />
+
+               {/* Lonely Traveler */}
+               <LonelyTraveler visible={theme.visuals.travelerOpacity > 0} opacity={theme.visuals.travelerOpacity} />
+               
+               {/* Seal Stamp Title */}
+               <div className="absolute top-32 left-8 md:left-24 font-calligraphy text-theme-primary opacity-10 text-9xl select-none pointer-events-none z-0 writing-vertical-rl animate-in fade-in duration-1000">
+                  {theme.name}
+               </div>
+           </div>
+           
+           <div className="max-w-4xl w-full mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-12 gap-8 relative z-20">
+              <div className="md:col-span-4"></div> 
+              
+              <div className="md:col-span-8 flex flex-col md:items-end text-right space-y-8 pt-20 md:pt-0">
+                 {/* Name Card */}
+                 <div className="relative inline-block animate-[draw_2s_ease-out]">
+                    <div className="border-[3px] border-theme-primary px-6 py-4 bg-[#e7e5e4] shadow-[8px_8px_0_rgba(28,25,23,0.2)] rotate-2 hover:rotate-0 transition-transform duration-500 inline-block">
+                       <h1 className="text-5xl md:text-7xl font-calligraphy text-[#1c1917] leading-none mb-2 whitespace-nowrap">
+                          {displayData.name}
+                       </h1>
+                       <div className="h-[2px] w-full bg-theme-primary mb-2"></div>
+                       <p className="text-sm font-serif text-theme-primary tracking-[0.3em] text-center">岁·时·记</p>
+                    </div>
+                 </div>
+
+                 {/* Info Card + Poem */}
+                 <div className="w-full max-w-lg bg-[#e7e5e4]/70 backdrop-blur-[2px] relative">
+                    {/* Left decorative line */}
+                    <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-theme-primary via-stone-400 to-transparent" />
+                    
+                    <div className="p-6 md:p-8 pl-8">
+                       {/* Header: Title tags + Location in one row */}
+                       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-4">
+                          <div className="flex flex-wrap gap-2">
+                             {displayData.title.split('/').map((t, i) => (
+                               <span key={i} className="text-xs font-serif font-bold text-stone-700 bg-stone-200/50 px-2.5 py-1 rounded-sm border border-stone-300/50">
+                                 {t.trim()}
+                               </span>
+                             ))}
+                          </div>
+                          <div className="flex items-center gap-3 text-stone-500 text-xs font-serif">
+                             <span className="flex items-center gap-1"><MapPin size={12} className="text-theme-primary" />{displayData.contact.location}</span>
+                             <span className="text-stone-300">·</span>
+                             <span>{displayData.contact.age}岁</span>
+                          </div>
+                       </div>
+                       
+                       {/* About text */}
+                       <p className="text-stone-700 text-sm leading-[1.8] mb-5 font-serif text-justify">
+                          {displayData.about}
+                       </p>
+                       
+                       {/* Poem */}
+                       <div className="flex items-center gap-3 mb-6 py-2.5 border-t border-b border-stone-300/40">
+                          <span className="font-calligraphy text-theme-primary text-sm">「{theme.poem.title}」</span>
+                          <span className="flex-1 h-px bg-gradient-to-r from-stone-300 to-transparent" />
+                          <p className="font-serif text-stone-500 text-xs italic">{theme.poem.line}</p>
+                       </div>
+
+                       {/* Buttons */}
+                       <div className="flex items-center gap-3">
+                          <PDFResumeExport />
+                          <button onClick={() => scrollToSection('experience')} className="flex-1 px-5 py-2.5 border border-[#1c1917] text-[#1c1917] text-sm font-serif hover:bg-stone-200/50 transition-colors duration-300 flex items-center justify-center gap-1 group">
+                             <span>前行</span>
+                             <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+                          </button>
+                       </div>
+                    </div>
+                    
+                    {/* Corner decoration */}
+                    <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden opacity-60">
+                       <div className="absolute top-0 right-0 w-0 h-0 border-t-[48px] border-r-[48px] border-t-stone-300/30 border-r-transparent" />
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        {/* EXPERIENCE — Full-width timeline */}
+        <Section id="experience" title="古道 · 行路" icon={<div className="font-calligraphy text-4xl">道</div>}>
+          <div className="relative pl-8 border-l-2 border-stone-300">
+            {/* Ink road line decoration */}
+            <div className="absolute top-0 left-[-1px] w-[2px] h-full bg-gradient-to-b from-theme-primary via-stone-300 to-transparent pointer-events-none" />
+
+            <div className="space-y-6">
+              {displayData.workExperience.map((exp, index) => (
+                <div key={index} className="relative group">
+                   {/* Timeline dot */}
+                   <div className="absolute -left-[25px] top-1 w-6 h-6 flex items-center justify-center bg-[#e7e5e4] border-2 border-theme-primary rounded-full shadow-md group-hover:scale-110 transition-transform z-10">
+                      <span className="text-[8px] font-bold text-theme-primary">驿</span>
+                   </div>
+
+                   {/* Card */}
+                   <div className="bg-[#e7e5e4]/80 backdrop-blur-[2px] p-6 md:p-8 border-t-2 border-[#1c1917] relative hover:-translate-y-0.5 transition-transform duration-500 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+                      <div className="absolute top-0 right-0 w-0 h-0 border-t-[16px] border-r-[16px] border-t-[#d6d3d1] border-r-[#e7e5e4]"></div>
+                      
+                      {/* Header row */}
+                      <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 mb-3">
+                         <div>
+                            <h3 className="text-xl font-bold text-stone-900 font-serif inline">{exp.company}</h3>
+                            <span className="text-stone-500 font-serif ml-3 text-sm">{exp.role}</span>
+                         </div>
+                         <span className="text-theme-primary font-bold text-sm font-mono shrink-0">{exp.period}</span>
+                      </div>
+                      
+                      <div className="h-[1px] bg-stone-300 mb-4" style={{ backgroundImage: 'repeating-linear-gradient(90deg, #d6d3d1 0, #d6d3d1 4px, transparent 4px, transparent 8px)' }} />
+                      
+                      {/* Details — 2-column on desktop for dense info */}
+                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
+                         {exp.details.map((d, i) => (
+                            <li key={i} className="text-stone-700 text-sm leading-relaxed flex items-start gap-2">
+                               <span className="mt-2 w-1 h-1 bg-theme-primary rounded-full shrink-0"></span>
+                               {d}
+                            </li>
+                         ))}
+                      </ul>
+                   </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Section>
+
+        {/* EDUCATION + SKILLS — Combined section (MOVED TO END) */}
+        {/* This section will be moved after notes section */}
+        {/* PROJECTS — Cards with sub-projects */}
+        <Section id="projects" title="寒舍 · 造物" icon={<Code2 />}>
+           <div className="space-y-6">
+              {displayData.projects.map((project, index) => (
+                 <div key={index} className="group relative bg-[#f5f5f4]/80 border border-stone-200 shadow-sm transition-all duration-500 hover:shadow-lg hover:bg-[#fffcf5] overflow-hidden">
+                    {/* Top accent bar */}
+                    <div className="h-1 bg-[#1c1917] transform scale-x-95 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                    
+                    <div className="p-6 md:p-8">
+                      {/* Project header */}
+                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 flex-wrap">
+                            <h3 className="text-xl font-bold text-[#1c1917] font-serif group-hover:text-theme-primary transition-colors">
+                              {project.name}
+                            </h3>
+                            {project.highlight && (
+                              <span className="px-2 py-0.5 border border-theme-primary text-theme-primary text-[10px] font-serif">
+                                重点
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-stone-500 text-sm font-serif mt-1">{project.role}</p>
+                        </div>
+                        <span className="text-theme-primary font-bold text-sm font-mono shrink-0">{project.period}</span>
+                      </div>
+
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-2 mb-5">
+                        {project.tags.map(tag => (
+                          <span key={tag} className="text-xs bg-stone-200 text-stone-600 px-2 py-0.5 rounded-sm">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Sub Projects Grid */}
+                      {project.subProjects && project.subProjects.length > 0 && (
+                        <div className="space-y-4 border-t border-stone-200 pt-5">
+                          {project.subProjects.map((sub) => (
+                            <div 
+                              key={sub.id}
+                              className={`relative transition-all duration-300 ${
+                                sub.links && sub.links.length > 0 
+                                  ? 'bg-white border border-stone-200' 
+                                  : 'bg-stone-50/50 border border-stone-200/60'
+                              }`}
+                            >
+                              <div className="flex flex-col md:flex-row gap-5 p-5">
+                                {/* Left: App Icon */}
+                                {sub.image ? (
+                                  <div className="md:w-28 lg:w-32 shrink-0 flex flex-col items-center gap-2">
+                                    <div className="w-24 h-24 md:w-28 md:h-28 bg-stone-100 rounded-2xl overflow-hidden shadow-sm">
+                                      <img 
+                                        src={sub.image} 
+                                        alt={sub.title}
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                          (e.target as HTMLImageElement).src = 'https://picsum.photos/200/200?grayscale';
+                                        }}
+                                      />
+                                    </div>
+                                  </div>
+                                ) : null}
+                                
+                                {/* Right: Content */}
+                                <div className="flex-1 min-w-0 flex flex-col">
+                                  {/* Header */}
+                                  <div className="mb-2">
+                                    <h4 className="font-bold text-stone-800 font-serif text-base">
+                                      {sub.title}
+                                      {sub.subtitle && (
+                                        <span className="ml-2 text-sm font-normal text-theme-primary">{sub.subtitle}</span>
+                                      )}
+                                    </h4>
+                                  </div>
+                                  
+                                  {/* Description */}
+                                  <p className="text-sm text-stone-600 leading-relaxed mb-3 whitespace-pre-line">
+                                    {sub.description}
+                                  </p>
+                                  
+                                  {/* Tech Stack, AI Tools & Platforms */}
+                                  <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs mb-4">
+                                    {sub.techStack && sub.techStack.length > 0 && (
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-stone-400">技术栈:</span>
+                                        <span className="text-stone-600">{sub.techStack.join(' · ')}</span>
+                                      </div>
+                                    )}
+                                    {sub.aiTools && sub.aiTools.length > 0 && (
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-stone-400">AI编程工具:</span>
+                                        <span className="text-stone-600">{sub.aiTools.join(' · ')}</span>
+                                      </div>
+                                    )}
+                                    {sub.platforms && sub.platforms.length > 0 && (
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-stone-400">适配:</span>
+                                        <span className="text-stone-600">{sub.platforms.join(' / ')}</span>
+                                      </div>
+                                    )}
+                                  </div>
+                                  
+                                  {/* Tags for tech projects */}
+                                  {!sub.image && sub.tags && sub.tags.length > 0 && (
+                                    <div className="flex flex-wrap gap-1.5 mb-3">
+                                      {sub.tags.map(tag => (
+                                        <span key={tag} className="text-[10px] bg-stone-200/60 text-stone-500 px-2 py-0.5 rounded-sm">
+                                          {tag}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  )}
+                                  
+                                  {/* Access Methods */}
+                                  {sub.links && sub.links.length > 0 && (
+                                    <div className="flex flex-wrap gap-3 mt-auto">
+                                      {sub.links.map((link, linkIdx) => (
+                                        link.type === 'h5' ? (
+                                          // H5 Link Button
+                                          <a
+                                            key={linkIdx}
+                                            href={link.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 px-4 py-2 bg-stone-200 text-stone-800 rounded-lg transition-all duration-300 border border-stone-300 hover:bg-[#1c1917] hover:text-[#e7e5e4] hover:border-[#1c1917]"
+                                          >
+                                            <ArrowUpRight size={14} className="text-stone-600 hover:text-[#e7e5e4] transition-all hover:translate-x-0.5 hover:-translate-y-0.5" />
+                                            <span className="text-sm font-semibold hover:text-[#e7e5e4] transition-colors">{link.label}</span>
+                                          </a>
+                                        ) : (
+                                          // MiniApp QR Code
+                                          <div key={linkIdx} className="relative">
+                                            <button className="peer inline-flex items-center gap-2 px-4 py-2 bg-stone-200 text-stone-800 hover:bg-stone-300 rounded-lg transition-all duration-300 border border-stone-300">
+                                              <span className="text-sm font-semibold text-stone-800">{link.label}</span>
+                                            </button>
+                                            {/* QR Code Popup - Fixed positioning */}
+                                            {link.qrcode && (
+                                              <div className="absolute bottom-full left-0 mb-2 w-36 opacity-0 invisible peer-hover:opacity-100 peer-hover:visible hover:opacity-100 hover:visible transition-all duration-300" style={{ transform: 'translateX(calc(-50% + 40px))' }}>
+                                                <div className="relative bg-white p-3 rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-stone-200">
+                                                  <div className="w-28 h-28 mx-auto bg-stone-50 rounded flex items-center justify-center overflow-hidden">
+                                                    <img 
+                                                      src={link.qrcode} 
+                                                      alt={`${link.label}二维码`}
+                                                      className="w-full h-full object-contain"
+                                                      onError={(e) => {
+                                                        (e.target as HTMLImageElement).src = 'https://api.qrserver.com/v1/create-qr-code/?size=112x112&data=placeholder';
+                                                      }}
+                                                    />
+                                                  </div>
+                                                  <p className="text-[10px] text-stone-500 text-center mt-2 whitespace-nowrap">扫码打开小程序</p>
+                                                  {/* Arrow */}
+                                                  <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-r border-b border-stone-200 rotate-45"></div>
+                                                </div>
+                                              </div>
+                                            )}
+                                          </div>
+                                        )
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Legacy description support */}
+                      {project.description && project.description.length > 0 && (
+                        <div className="space-y-2.5 border-t border-stone-200 pt-5">
+                          {project.description.map((desc, i) => (
+                            <div key={i} className="flex items-start gap-3 text-sm text-stone-700 leading-relaxed">
+                              <span className="text-theme-primary font-mono text-xs mt-0.5 shrink-0 w-5 text-right">{String(i + 1).padStart(2, '0')}</span>
+                              <span>{desc}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                 </div>
+              ))}
+           </div>
+        </Section>
+
+        {/* NOTES — Standalone section */}
+        <Section id="notes" title="手札 · 随笔" icon={<div className="font-calligraphy text-4xl">札</div>} showDivider={false}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {profileLoading ? (
+              <div className="col-span-3 text-center py-8 text-stone-500">加载中...</div>
+            ) : !displayData.notes || displayData.notes.length === 0 ? (
+              <div className="col-span-3 text-center py-8 text-stone-500">暂无笔记</div>
+            ) : (
+              displayData.notes.map((note: any) => (
+                <div 
+                  key={note.id} 
+                  onClick={() => navigate(`/notes/${note.id}`)}
+                  className="bg-[#e7e5e4]/70 backdrop-blur-[2px] p-5 md:p-6 border border-stone-300 hover:border-theme-primary transition-all duration-300 cursor-pointer group hover:-translate-y-1 hover:shadow-md"
+                >
+                  <div className="flex items-start justify-between gap-3 mb-3">
+                    <h3 className="font-bold text-stone-900 text-sm leading-snug group-hover:text-theme-primary transition-colors">
+                      {note.title}
+                    </h3>
+                  </div>
+                  <p className="text-xs text-stone-500 leading-relaxed mb-4 line-clamp-3">{note.summary}</p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap gap-1.5">
+                      {note.tags?.map((tag: string) => (
+                        <span key={tag} className="text-[10px] bg-stone-200 text-stone-500 px-1.5 py-0.5 rounded-sm">{tag}</span>
+                      ))}
+                    </div>
+                    <span className="text-[10px] text-stone-400 font-mono shrink-0">
+                      {new Date(note.created_at).toLocaleDateString('zh-CN')}
+                    </span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </Section>
+
+        {/* FOOTER */}
+
+        {/* PROJECTS — Cards with sub-projects */}
+
+        <Section id="skills" title="修习 · 根基" icon={<GraduationCap />} showDivider={false}>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
+            
+            {/* Left: Education + Self-evaluation */}
+            <div className="md:col-span-4 space-y-8">
+              {/* Education */}
+              <div>
+                <h3 className="text-lg font-bold text-stone-800 font-serif mb-4 flex items-center gap-2">
+                  <GraduationCap size={18} className="text-theme-primary" />
+                  教育背景
+                </h3>
+                {displayData.education.map((edu, index) => (
+                  <div key={index} className="bg-[#e7e5e4]/60 backdrop-blur-[2px] p-5 border-l-2 border-theme-primary">
+                    <h4 className="font-bold text-stone-900 font-serif text-base">{edu.school}</h4>
+                    <p className="text-stone-600 font-serif text-sm mt-1">{edu.major}</p>
+                    <p className="text-theme-primary text-xs font-mono mt-2">{edu.period}</p>
+                    {edu.honors && edu.honors.length > 0 && (
+                      <div className="mt-3 pt-3 border-t border-stone-300/50 space-y-1.5">
+                        {edu.honors.map((h, hi) => (
+                          <div key={hi} className="flex items-center gap-2 text-xs text-stone-600">
+                            <span className="w-1 h-1 bg-theme-primary rounded-full shrink-0"></span>
+                            {h}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Quote / Self-evaluation summary */}
+              <div className="border-t border-stone-300 pt-6">
+                <p className="text-stone-500 text-sm font-serif italic leading-relaxed">
+                  {displayData.quote}
+                </p>
+              </div>
+            </div>
+
+            {/* Right: Skills grid */}
+            <div className="md:col-span-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {displayData.skillCategories?.map((cat, idx) => (
+                  <div key={idx} className="group bg-[#e7e5e4]/40 p-5 border border-stone-200 hover:border-theme-primary transition-colors duration-300">
+                    <h3 className="text-base font-bold text-stone-800 mb-3 font-serif group-hover:text-theme-primary transition-colors flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-theme-primary rounded-full"></span>
+                      {cat.title}
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {cat.skills?.map((skill, sIdx) => (
+                        <span key={sIdx} className="text-xs bg-stone-200/80 text-stone-600 px-2.5 py-1 rounded-sm hover:bg-stone-300 transition-colors cursor-default">
+                          {skill.name || skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Section>
+
+        <footer id="contact" className="relative pt-16 pb-12 overflow-hidden bg-gradient-to-b from-transparent to-[#d6d3d1]/30">
+           {/* BRIDGE & WATER SCENE (Contextual) */}
+           <BridgeWaterScene waterClass={theme.colors.water} element={theme.visuals.waterElement} cottageState={theme.visuals.cottage} showSmoke={theme.type === 'autumn' || theme.type === 'winter'} />
+           
+           <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+              <div className="mb-12">
+                 <h2 className="text-4xl md:text-5xl font-calligraphy text-[#1c1917] mb-4">
+                    天涯 · 共话
+                 </h2>
+                 <div className="w-16 h-1 bg-theme-primary mx-auto mb-6"></div>
+                 <p className="text-stone-600 font-serif max-w-2xl mx-auto leading-relaxed">
+                    既已至此，不妨停马暂歇。无论是代码之道，还是AI之术，愿能与君共话。
+                 </p>
+              </div>
+              
+              <div className="flex flex-col md:flex-row justify-center gap-8 mb-16">
+                 <a href={`mailto:${displayData.contact.email}`} className="group flex items-center justify-center gap-3 px-8 py-4 bg-[#e7e5e4] border border-[#1c1917] shadow-[4px_4px_0_#1c1917] hover:translate-y-1 hover:shadow-none transition-all max-w-full">
+                    <Mail size={18} className="text-theme-primary shrink-0" />
+                    <span className="font-serif font-bold text-stone-800 break-all">{displayData.contact.email}</span>
+                 </a>
+                 <PhoneButton phone={displayData.contact.phone} />
+              </div>
+              
+              <div className="text-stone-500 text-xs font-serif tracking-widest opacity-60 hover:opacity-100 transition-opacity">
+                 &copy; 2024 安鼎禹 | {theme.poem.line}
+              </div>
+              
+              {/* 备案号 */}
+              <div className="mt-4 text-stone-400 text-xs flex flex-col gap-1">
+                <a 
+                  href="https://beian.miit.gov.cn/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-stone-600 transition-colors"
+                >
+                  豫ICP备2026005365号
+                </a>
+                <a 
+                  href="https://beian.mps.gov.cn/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-stone-600 transition-colors inline-flex items-center justify-center gap-1"
+                >
+                  <img src="https://beian.mps.gov.cn/img/ghs.png" alt="公安备案" className="w-3 h-3 opacity-70" />
+                  豫公网安备41108102000782号
+                </a>
+              </div>
+           </div>
+        </footer>
+      </main>
+    </div>
+    </>
+  );
+}
