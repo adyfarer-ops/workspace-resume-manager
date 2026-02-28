@@ -15,7 +15,11 @@
       },
       {
         "category": "AI 编程工具",
-        "items": ["Cursor", "Trae", "Kiro", "Antigravity", "OpenClaw"]
+        "items": ["Cursor", "Trae", "Kiro", "Antigravity"]
+      },
+      {
+        "category": "AI 多 Agent 协作平台",
+        "items": ["OpenClaw", "多 Agent 协同开发", "自动化工作流", "技能学习追踪", "简历管理 Agent", "代码生成 Agent", "数据爬取 Agent"]
       },
       {
         "category": "设计与媒体",
