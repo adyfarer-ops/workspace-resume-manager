@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{name}} - 简历</title>
+  <style>
+    /* ===== 基础重置 ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+      background: #f5f5f4;
+      color: #1c1917;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* ===== 主容器 ===== */
+    .resume {
+      max-width: 210mm; /* A4宽度 */
+      margin: 0 auto;
+      background: #fafaf9;
+      box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    }
+    
+    /* ===== 头部区域 ===== */
+    .header {
+      background: linear-gradient(135deg, #e7e5e4 0%, #d6d3d1 100%);
+      padding: 30px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(120,113,108,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    
+    .header-content {
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 3px solid #78716c;
+      object-fit: cover;
+      background: #d6d3d1;
+      flex-shrink: 0;
+    }
+    
+    .header-info {
+      flex: 1;
+    }
+    
+    .name {
+      font-size: 36px;
+      font-weight: 700;
+      color: #1c1917;
+      margin-bottom: 8px;
+      letter-spacing: 0.1em;
+    }
+    
+    .title {
+      font-size: 14px;
+      color: #78716c;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+    
+    .title span {
+      display: inline-block;
+      background: #d6d3d1;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 2px;
+    }
+    
+    .contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: #57534e;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .contact-icon {
+      width: 16px;
+      height: 16px;
+      opacity: 0.6;
+    }
+    
+    /* ===== 引言 ===== */
+    .quote {
+      background: #f5f5f4;
+      padding: 20px 40px;
+      border-left: 3px solid #78716c;
+      font-style: italic;
+      color: #78716c;
+      font-size: 14px;
+    }
+    
+    /* ===== 内容区域 ===== */
+    .content {
+      padding: 30px 40px;
+    }
+    
+    /* ===== 区块标题 ===== */
+    .section {
+      margin-bottom: 24px;
+    }
+    
+    .section:last-child {
+      margin-bottom: 0;
+    }
+    
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #d6d3d1;
+    }
+    
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      background: #78716c;
+      color: #fafaf9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 4px;
+    }
+    
+    .section-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1c1917;
+      letter-spacing: 0.1em;
+    }
+    
+    .section-subtitle {
+      font-size: 12px;
+      color: #a8a29e;
+      margin-left: auto;
+      font-style: italic;
+    }
+    
+    /* ===== 关于我 ===== */
+    .about-text {
+      font-size: 14px;
+      line-height: 2;
+      color: #44403c;
+      text-align: justify;
+    }
+    
+    /* ===== 工作经历 ===== */
+    .experience-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    
+    .experience-item {
+      position: relative;
+      padding-left: 20px;
+      border-left: 2px solid #d6d3d1;
+    }
+    
+    .experience-item::before {
+      content: "";
+      position: absolute;
+      left: -5px;
+      top: 6px;
+      width: 8px;
+      height: 8px;
+      background: #78716c;
+      border-radius: 50%;
+      border: 2px solid #fafaf9;
+    }
+    
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .exp-company {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1c1917;
+    }
+    
+    .exp-role {
+      font-size: 13px;
+      color: #78716c;
+      margin-left: 8px;
+    }
+    
+    .exp-period {
+      font-size: 12px;
+      color: #a8a29e;
+      font-family: monospace;
+    }
+    
+    .exp-desc {
+      font-size: 13px;
+      color: #57534e;
+      line-height: 1.9;
+      margin-bottom: 10px;
+    }
+    
+    .exp-achievements {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .achievement-tag {
+      font-size: 11px;
+      background: #e7e5e4;
+      color: #78716c;
+      padding: 3px 10px;
+      border-radius: 2px;
+    }
+    
+    /* ===== 项目经历 ===== */
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .project-item {
+      background: #f5f5f4;
+      padding: 20px;
+      border-radius: 4px;
+      border-left: 3px solid #78716c;
+    }
+    
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .project-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1c1917;
+    }
+    
+    .project-role {
+      font-size: 12px;
+      color: #78716c;
+    }
+    
+    .project-period {
+      font-size: 11px;
+      color: #a8a29e;
+      font-family: monospace;
+    }
+    
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    
+    .project-tag {
+      font-size: 10px;
+      background: #d6d3d1;
+      color: #57534e;
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+    
+    .project-desc {
+      font-size: 12px;
+      color: #57534e;
+      line-height: 1.8;
+    }
+    
+    /* 子项目 */
+    .sub-projects {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed #d6d3d1;
+    }
+    
+    .sub-project {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .sub-project:last-child {
+      margin-bottom: 0;
+    }
+    
+    .sub-project-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #d6d3d1;
+      flex-shrink: 0;
+    }
+    
+    .sub-project-content {
+      flex: 1;
+    }
+    
+    .sub-project-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1c1917;
+      margin-bottom: 4px;
+    }
+    
+    .sub-project-subtitle {
+      font-size: 11px;
+      color: #78716c;
+      margin-left: 6px;
+    }
+    
+    .sub-project-desc {
+      font-size: 11px;
+      color: #57534e;
+      line-height: 1.7;
+      margin-bottom: 6px;
+    }
+    
+    .sub-project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 10px;
+      color: #a8a29e;
+    }
+    
+    .sub-project-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    /* ===== 技能 ===== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    
+    .skill-category {
+      background: #f5f5f4;
+      padding: 16px;
+      border-radius: 4px;
+    }
+    
+    .skill-category-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1c1917;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .skill-category-title::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: #78716c;
+      border-radius: 50%;
+    }
+    
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    
+    .skill-tag {
+      font-size: 11px;
+      background: #e7e5e4;
+      color: #57534e;
+      padding: 3px 10px;
+      border-radius: 2px;
+    }
+    
+    /* ===== 教育背景 ===== */
+    .education-item {
+      background: #f5f5f4;
+      padding: 16px 20px;
+      border-left: 3px solid #78716c;
+    }
+    
+    .edu-school {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1c1917;
+      margin-bottom: 4px;
+    }
+    
+    .edu-major {
+      font-size: 13px;
+      color: #57534e;
+    }
+    
+    .edu-period {
+      font-size: 11px;
+      color: #a8a29e;
+      font-family: monospace;
+      margin-top: 6px;
+    }
+    
+    .edu-honors {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed #d6d3d1;
+    }
+    
+    .edu-honor {
+      font-size: 11px;
+      color: #78716c;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    
+    .edu-honor::before {
+      content: "•";
+      color: #78716c;
+    }
+    
+    /* ===== 页脚 ===== */
+    .footer {
+      background: #e7e5e4;
+      padding: 30px 40px;
+      text-align: center;
+    }
+    
+    .footer-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1c1917;
+      margin-bottom: 8px;
+      letter-spacing: 0.2em;
+    }
+    
+    .footer-desc {
+      font-size: 13px;
+      color: #78716c;
+      margin-bottom: 20px;
+    }
+    
+    .footer-contact {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .footer-contact-item {
+      font-size: 13px;
+      color: #57534e;
+    }
+    
+    /* ===== 两列布局 ===== */
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 30px;
+    }
+    
+    /* ===== 印章效果 ===== */
+    .seal {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border: 2px solid rgba(120,113,108,0.3);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: rgba(120,113,108,0.4);
+      transform: rotate(12deg);
+      font-family: "Noto Serif SC", serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="resume">
+    <!-- 头部 -->
+    <header class="header">
+      <div class="seal">岁时记</div>
+      <div class="header-content">
+        <img class="avatar" src="{{avatar}}" alt="头像">
+        <div class="header-info">
+          <h1 class="name">{{name}}</h1>
+          <div class="title">
+            {{#each titles}}
+            <span>{{this}}</span>
+            {{/each}}
+          </div>
+          <div class="contact">
+            <div class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span>{{location}}</span>
+            </div>
+            <div class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <span>{{age}}岁</span>
+            </div>
+            <div class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              <span>{{phone}}</span>
+            </div>
+            <div class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              <span>{{email}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <!-- 引言 -->
+    <div class="quote">「{{quote}}」</div>
+    
+    <!-- 主体内容 -->
+    <div class="content">
+      <!-- 关于我 -->
+      <section class="section">
+        <div class="section-title">
+          <div class="section-icon">志</div>
+          <span class="section-text">关于我</span>
+          <span class="section-subtitle">About</span>
+        </div>
+        <p class="about-text">{{about}}</p>
+      </section>
+      
+      <!-- 工作经历 -->
+      <section class="section">
+        <div class="section-title">
+          <div class="section-icon">道</div>
+          <span class="section-text">工作经历</span>
+          <span class="section-subtitle">Experience</span>
+        </div>
+        <div class="experience-list">
+          {{#each experiences}}
+          <div class="experience-item">
+            <div class="exp-header">
+              <div>
+                <span class="exp-company">{{company}}</span>
+                <span class="exp-role">{{role}}</span>
+              </div>
+              <span class="exp-period">{{period}}</span>
+            </div>
+            <p class="exp-desc">{{description}}</p>
+            <div class="exp-achievements">
+              {{#each achievements}}
+              <span class="achievement-tag">{{this}}</span>
+              {{/each}}
+            </div>
+          </div>
+          {{/each}}
+        </div>
+      </section>
+      
+      <!-- 项目经历 -->
+      <section class="section">
+        <div class="section-title">
+          <div class="section-icon">造</div>
+          <span class="section-text">项目经历</span>
+          <span class="section-subtitle">Projects</span>
+        </div>
+        <div class="project-list">
+          {{#each projects}}
+          <div class="project-item">
+            <div class="project-header">
+              <div>
+                <span class="project-name">{{name}}</span>
+                <span class="project-role">{{role}}</span>
+              </div>
+              <span class="project-period">{{period}}</span>
+            </div>
+            <div class="project-tags">
+              {{#each tags}}
+              <span class="project-tag">{{this}}</span>
+              {{/each}}
+            </div>
+            {{#if description}}
+            <p class="project-desc">{{description}}</p>
+            {{/if}}
+            {{#if subProjects}}
+            <div class="sub-projects">
+              {{#each subProjects}}
+              <div class="sub-project">
+                {{#if image}}
+                <img class="sub-project-image" src="{{image}}" alt="{{title}}">
+                {{/if}}
+                <div class="sub-project-content">
+                  <div class="sub-project-title">
+                    {{title}}
+                    {{#if subtitle}}
+                    <span class="sub-project-subtitle">{{subtitle}}</span>
+                    {{/if}}
+                  </div>
+                  <p class="sub-project-desc">{{description}}</p>
+                  <div class="sub-project-meta">
+                    {{#if techStack}}
+                    <span>技术: {{techStack}}</span>
+                    {{/if}}
+                    {{#if aiTools}}
+                    <span>AI工具: {{aiTools}}</span>
+                    {{/if}}
+                  </div>
+                </div>
+              </div>
+              {{/each}}
+            </div>
+            {{/if}}
+          </div>
+          {{/each}}
+        </div>
+      </section>
+      
+      <!-- 技能 & 教育 -->
+      <div class="two-column">
+        <!-- 教育背景 -->
+        <section class="section">
+          <div class="section-title">
+            <div class="section-icon">学</div>
+            <span class="section-text">教育</span>
+            <span class="section-subtitle">Education</span>
+          </div>
+          {{#each education}}
+          <div class="education-item">
+            <div class="edu-school">{{school}}</div>
+            <div class="edu-major">{{major}}</div>
+            <div class="edu-period">{{period}}</div>
+            {{#if honors}}
+            <div class="edu-honors">
+              {{#each honors}}
+              <div class="edu-honor">{{this}}</div>
+              {{/each}}
+            </div>
+            {{/if}}
+          </div>
+          {{/each}}
+        </section>
+        
+        <!-- 技能 -->
+        <section class="section">
+          <div class="section-title">
+            <div class="section-icon">技</div>
+            <span class="section-text">技能</span>
+            <span class="section-subtitle">Skills</span>
+          </div>
+          <div class="skills-grid">
+            {{#each skillCategories}}
+            <div class="skill-category">
+              <div class="skill-category-title">{{title}}</div>
+              <div class="skill-tags">
+                {{#each skills}}
+                <span class="skill-tag">{{name}}</span>
+                {{/each}}
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </section>
+      </div>
+    </div>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="footer-title">天涯 · 共话</div>
+      <div class="footer-desc">既已至此，不妨停马暂歇。无论是代码之道，还是AI之术，愿能与君共话。</div>
+      <div class="footer-contact">
+        <div class="footer-contact-item">📧 {{email}}</div>
+        <div class="footer-contact-item">📱 {{phone}}</div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

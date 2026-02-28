@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>安鼎禹 - 简历</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .resume {
+      max-width: 210mm;
+      margin: 0 auto;
+      background: #fff;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    
+    /* 头部区域 */
+    .header {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      color: #fff;
+      padding: 30px 40px;
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+    
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,0.3);
+      object-fit: cover;
+      background: #ddd;
+      flex-shrink: 0;
+    }
+    
+    .header-info {
+      flex: 1;
+    }
+    
+    .name {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+    }
+    
+    .title {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 12px;
+    }
+    
+    .quote {
+      font-size: 13px;
+      opacity: 0.8;
+      font-style: italic;
+      border-left: 3px solid rgba(255,255,255,0.4);
+      padding-left: 12px;
+    }
+    
+    /* 主体内容 */
+    .main-content {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: calc(100vh - 150px);
+    }
+    
+    /* 左侧栏 */
+    .left-sidebar {
+      background: #f8f9fa;
+      padding: 25px;
+      border-right: 1px solid #e9ecef;
+    }
+    
+    /* 右侧内容 */
+    .right-content {
+      padding: 25px 30px;
+    }
+    
+    /* 区块标题 */
+    .section {
+      margin-bottom: 25px;
+    }
+    
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .section-icon {
+      width: 20px;
+      height: 20px;
+      background: #2c3e50;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      border-radius: 3px;
+    }
+    
+    /* 基本信息 */
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .info-item {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 12px;
+    }
+    
+    .info-label {
+      color: #666;
+      min-width: 50px;
+    }
+    
+    .info-value {
+      color: #333;
+      font-weight: 500;
+    }
+    
+    /* 技能 */
+    .skill-category {
+      margin-bottom: 15px;
+    }
+    
+    .skill-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 6px;
+    }
+    
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    
+    .skill-tag {
+      font-size: 10px;
+      background: #e9ecef;
+      color: #495057;
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+    
+    /* 教育背景 */
+    .education-item {
+      margin-bottom: 15px;
+    }
+    
+    .edu-school {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 3px;
+    }
+    
+    .edu-major {
+      font-size: 11px;
+      color: #666;
+    }
+    
+    .edu-period {
+      font-size: 10px;
+      color: #999;
+      margin-top: 3px;
+    }
+    
+    .edu-honors {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #ddd;
+    }
+    
+    .edu-honor {
+      font-size: 10px;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 3px;
+    }
+    
+    .edu-honor::before {
+      content: "•";
+      color: #2c3e50;
+    }
+    
+    /* 工作经历 */
+    .experience-item {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    .experience-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    
+    .exp-company {
+      font-size: 14px;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+    
+    .exp-role {
+      font-size: 12px;
+      color: #666;
+      margin-left: 8px;
+    }
+    
+    .exp-period {
+      font-size: 11px;
+      color: #999;
+      font-family: monospace;
+    }
+    
+    .exp-desc {
+      font-size: 12px;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    
+    .exp-achievements {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    
+    .achievement-tag {
+      font-size: 10px;
+      background: #e8f4f8;
+      color: #2c3e50;
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+    
+    /* 项目经历 */
+    .project-item {
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    .project-item:last-child {
+      border-bottom: none;
+    }
+    
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+    
+    .project-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+    
+    .project-role {
+      font-size: 11px;
+      color: #666;
+    }
+    
+    .project-period {
+      font-size: 10px;
+      color: #999;
+      font-family: monospace;
+    }
+    
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+    
+    .project-tag {
+      font-size: 9px;
+      background: #f0f0f0;
+      color: #666;
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+    
+    .project-desc {
+      font-size: 11px;
+      color: #555;
+      line-height: 1.6;
+    }
+    
+    /* 子项目 */
+    .sub-projects {
+      margin-top: 10px;
+      padding-left: 15px;
+      border-left: 2px solid #e9ecef;
+    }
+    
+    .sub-project {
+      margin-bottom: 10px;
+    }
+    
+    .sub-project-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 3px;
+    }
+    
+    .sub-project-subtitle {
+      font-size: 10px;
+      color: #2c3e50;
+      margin-left: 5px;
+    }
+    
+    .sub-project-desc {
+      font-size: 10px;
+      color: #666;
+      line-height: 1.5;
+    }
+    
+    .sub-project-meta {
+      font-size: 9px;
+      color: #999;
+      margin-top: 3px;
+    }
+    
+    /* 自我评价 */
+    .about-text {
+      font-size: 12px;
+      color: #555;
+      line-height: 1.8;
+      text-align: justify;
+    }
+    
+    /* 打印按钮 */
+    .print-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #2c3e50;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+    
+    .print-btn:hover {
+      background: #34495e;
+    }
+    
+    @media print {
+      body {
+        background: #fff;
+      }
+      .print-btn {
+        display: none;
+      }
+      .resume {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="print-btn" onclick="window.print()">🖨️ 打印 / 另存为PDF</button>
+
+  <div class="resume">
+    <!-- 头部 -->
+    <header class="header">
+      <img class="avatar" src="https://picsum.photos/400/400?grayscale" alt="头像">
+      <div class="header-info">
+        <h1 class="name">安鼎禹</h1>
+        <div class="title">Web前端开发工程师 / AI智能体开发 / AI编程</div>
+        <div class="quote">「偷得浮生半日闲，明天依旧打工人。」</div>
+      </div>
+    </header>
+
+    <div class="main-content">
+      <!-- 左侧栏 -->
+      <aside class="left-sidebar">
+        <!-- 基本信息 -->
+        <section class="section">
+          <div class="section-title">
+            <div class="section-icon">基</div>
+            <span>基本信息</span>
+          </div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="info-label">年龄：</span>
+              <span class="info-value">27岁</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">籍贯：</span>
+              <span class="info-value">河南</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">电话：</span>
+              <span class="info-value">17630830323</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">邮箱：</span>
+              <span class="info-value">yfarer@163.com</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 教育背景 -->
+        <section class="section">
+          <div class="section-title">
+            <div class="section-icon">学</div>
+            <span>教育背景</span>
+          </div>
+          <div class="education-item">
+            <div class="edu-school">漯河职业技术职业学院</div>
+            <div class="edu-major">计算机应用技术 | 2016.09 - 2019.06</div>
+            <div class="edu-honors">
+              <div class="edu-honor">2017年11月 荣获国家励志奖学金</div>
+              <div class="edu-honor">有普通话等级证书</div>
+              <div class="edu-honor">有计算机等级证书</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 专业技能 -->
+        <section class="section">
+          <div class="section-title">
+            <div class="section-icon">技</div>
+            <span>专业技能</span>
+          </div>
+          <div class="skill-category">
+            <div class="skill-title">AI 智能体开发</div>
+            <div class="skill-tags">
+              <span class="skill-tag">n8n</span>
+              <span class="skill-tag">Dify</span>
+              <span class="skill-tag">Coze(扣子)</span>
+              <span class="skill-tag">Workflow编排</span>
+              <span class="skill-tag">Prompt Engineering</span>
+              <span class="skill-tag">角色扮演</span>
+              <span class="skill-tag">任务拆解</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-title">Web 开发</div>
+            <div class="skill-tags">
+              <span class="skill-tag">Vue3</span>
+              <span class="skill-tag">HTML5</span>
+              <span class="skill-tag">CSS3</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">小程序</span>
+              <span class="skill-tag">Uni-app</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-title">AI 工具使用</div>
+            <div class="skill-tags">
+              <span class="skill-tag">Kimi.ai</span>
+              <span class="skill-tag">GPT-4</span>
+              <span class="skill-tag">Gemini</span>
+              <span class="skill-tag">Sora2</span>
+              <span class="skill-tag">即梦</span>
+              <span class="skill-tag">豆包</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-title">AI 编程工具</div>
+            <div class="skill-tags">
+              <span class="skill-tag">Cursor</span>
+              <span class="skill-tag">Trae</span>
+              <span class="skill-tag">Kiro</span>
+              <span class="skill-tag">Antigravity</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-title">设计与媒体</div>
+            <div class="skill-tags">
+              <span class="skill-tag">Figma</span>
+              <span class="skill-tag">Stitch</span>
+              <span class="skill-tag">剪映</span>
+              <span class="skill-tag">抖音运营</span>
+              <span class="skill-tag">小红书运营</span>
+            </div>
+          </div>
+        </section>
+      </aside>
+
+      <!-- 右侧内容 -->
+      <main class="right-content">
+        <!-- 工作经历 -->
+        <section class="section">
+          <div class="section-title">
+            <div class="section-icon">工</div>
+            <span>工作经历</span>
+          </div>
+          <div class="experience-item">
+            <div class="exp-header">
+              <div>
+                <span class="exp-company">上海星漫科技有限公司</span>
+                <span class="exp-role">Web前端开发工程师</span>
+              </div>
+              <span class="exp-period">2021.05 - 2023.03</span>
+            </div>
+            <p class="exp-desc">负责Web、H5以及小程序页面的开发，根据UI设计图精确还原页面；负责页面的动态数据交互，与后台人员交接，测试并优化接口；完成小程序商城支付功能开发；对接腾讯云直播和云点播，使用live-pusher/live-player组件实现推拉流；优化公司原有框架，参与公共组件方案设计，提升项目易用性与开发效率；指导新人，提升团队整体技术水平。</p>
+            <div class="exp-achievements">
+              <span class="achievement-tag">完成小程序商城支付功能开发</span>
+              <span class="achievement-tag">对接腾讯云直播和云点播</span>
+              <span class="achievement-tag">优化公司原有框架</span>
+              <span class="achievement-tag">指导新人提升团队技术水平</span>
+            </div>
+          </div>
+          <div class="experience-item">
+            <div class="exp-header">
+              <div>
+                <span class="exp-company">上海中圳科技有限公司</span>
+                <span class="exp-role">Web前端开发工程师</span>
+              </div>
+              <span class="exp-period">2019.07 - 2021.04</span>
+            </div>
+            <p class="exp-desc">负责老项目的优化迭代与新页面开发，维护业务稳定性；对Element组件进行二次封装，提升用户体验与开发效率；使用Uni-app开发跨平台应用，主导「芥末交友」等社交产品的开发；根据用户需求完善页面功能，配合后端完成数据交互。</p>
+            <div class="exp-achievements">
+              <span class="achievement-tag">对Element组件进行二次封装</span>
+              <span class="achievement-tag">使用Uni-app开发跨平台应用</span>
+              <span class="achievement-tag">主导「芥末交友」等社交产品开发</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 项目经历 -->
+        <section class="section">
+          <div class="section-title">
+            <div class="section-icon">项</div>
+            <span>项目经历</span>
+          </div>
+          <div class="project-item">
+            <div class="project-header">
+              <div>
+                <span class="project-name">AI编程工具应用</span>
+                <span class="project-role">AI效能工程师</span>
+              </div>
+              <span class="project-period">2026年初 - 至今</span>
+            </div>
+            <div class="project-tags">
+              <span class="project-tag">Kiro</span>
+              <span class="project-tag">MCP</span>
+              <span class="project-tag">Skills</span>
+              <span class="project-tag">飞书</span>
+              <span class="project-tag">钉钉</span>
+              <span class="project-tag">DeepSeek</span>
+              <span class="project-tag">Uni-app</span>
+              <span class="project-tag">Vue3</span>
+              <span class="project-tag">Supabase</span>
+            </div>
+            <p class="project-desc">利用AI编程工具提升开发效率，实现办公自动化</p>
+            <div class="sub-projects">
+              <div class="sub-project">
+                <div class="sub-project-title">
+                  办公自动化
+                </div>
+                <p class="sub-project-desc">利用AI编程工具对接MCP，或使用Skills对接飞书/钉钉，实现办公流程自动化。</p>
+                <div class="sub-project-meta">技术栈: Kiro, Cursor, Trae</div>
+              </div>
+              <div class="sub-project">
+                <div class="sub-project-title">
+                  最后亿次
+                  <span class="sub-project-subtitle">个人小程序（已上架）</span>
+                </div>
+                <p class="sub-project-desc">一款以习惯养成为核心的跨平台应用，融合AI陪伴、积分激励、成就系统等功能。以终小喵为灵伴，通过每日打卡、积分兑换奖励、AI对话鼓励等方式，帮助用户建立并坚持良好习惯。</p>
+                <div class="sub-project-meta">技术栈: Uni-app, Vue3, Pinia, Supabase</div>
+              </div>
+              <div class="sub-project">
+                <div class="sub-project-title">
+                  岁时记
+                  <span class="sub-project-subtitle">二十四节气简历</span>
+                </div>
+                <p class="sub-project-desc">使用AI编程工具开发的诗意简历网站，融合二十四节气主题、动态水墨意境、节日特效等中国传统文化元素，主题随时节自动流转，呈现当下最应景的视觉氛围。</p>
+                <div class="sub-project-meta">技术栈: React, TypeScript, Tailwind CSS, Vite</div>
+              </div>
+            </div>
+          </div>
+          <div class="project-item">
+            <div class="project-header">
+              <div>
+                <span class="project-name">Coze工作流与智能体开发</span>
+                <span class="project-role">智能体开发者</span>
+              </div>
+              <span class="project-period">2025年初 - 至今</span>
+            </div>
+            <div class="project-tags">
+              <span class="project-tag">Coze</span>
+              <span class="project-tag">LLM</span>
+              <span class="project-tag">Prompt Engineering</span>
+            </div>
+            <p class="project-desc">开发多种AI智能体和工作流应用</p>
+          </div>
+          <div class="project-item">
+            <div class="project-header">
+              <div>
+                <span class="project-name">自媒体账号运营</span>
+                <span class="project-role">内容创作者</span>
+              </div>
+              <span class="project-period">2023.06 - 至今</span>
+            </div>
+            <div class="project-tags">
+              <span class="project-tag">抖音</span>
+              <span class="project-tag">快手</span>
+              <span class="project-tag">小红书</span>
+              <span class="project-tag">AIGC</span>
+            </div>
+            <p class="project-desc">从0到1搭建个人账号，跟进赛道热点与选题，制作发布高质量内容。</p>
+          </div>
+        </section>
+
+        <!-- 自我评价 -->
+        <section class="section">
+          <div class="section-title">
+            <div class="section-icon">评</div>
+            <span>自我评价</span>
+          </div>
+          <p class="about-text">拥有扎实的前端开发经验，并积极拥抱AI技术变革。在AI Agent开发与自动化系统构建方面持续深耕，能够独立完成从需求分析、系统设计到部署运维的全流程开发；在Web工程化方面，具备前后端数据联动、数据库设计与优化、以及全栈应用快速交付的能力；在AI工具应用方面，熟练运用各类AI编程工具与智能体平台，实现开发效率的指数级提升。不仅在传统Web开发领域有丰富的实战经验，更在AI Agent开发、Coze工作流搭建及自媒体运营方面取得了显著成果。</p>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

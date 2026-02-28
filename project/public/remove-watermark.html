@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+    .image-container { 
+      position: relative; 
+      display: inline-block;
+      overflow: hidden;
+    }
+    .image-container img {
+      display: block;
+      max-width: 100%;
+    }
+    /* 遮罩水印 */
+    .mask {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 200px;
+      height: 60px;
+      background: #f5f5f4;
+    }
+  </style>
+</head>
+<body>
+  <div class="image-container">
+    <img src="/images/article/step1-error.png" alt="OpenClaw 界面" id="source-img">
+    <div class="mask"></div>
+  </div>
+  <script>
+    // 页面加载后截图
+    window.onload = function() {
+      setTimeout(() => {
+        console.log('Ready for screenshot');
+      }, 1000);
+    };
+  </script>
+</body>
+</html>

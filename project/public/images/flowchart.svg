@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500">
+  <!-- 背景 -->
+  <rect width="600" height="500" fill="#fafaf9"/>
+  
+  <!-- 标题 -->
+  <text x="300" y="30" text-anchor="middle" font-family="Noto Serif SC" font-size="18" fill="#1c1917" font-weight="bold">配置流程图</text>
+  
+  <!-- 步骤1 -->
+  <rect x="200" y="60" width="200" height="50" rx="8" fill="#e7e5e4" stroke="#78716c" stroke-width="2"/>
+  <text x="300" y="90" text-anchor="middle" font-family="Noto Serif SC" font-size="12" fill="#1c1917">1. OpenClaw 暴露公网</text>
+  <!-- 箭头 -->
+  <line x1="300" y1="110" x2="300" y2="130" stroke="#78716c" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- 步骤2 -->
+  <rect x="200" y="140" width="200" height="50" rx="8" fill="#e7e5e4" stroke="#78716c" stroke-width="2"/>
+  <text x="300" y="170" text-anchor="middle" font-family="Noto Serif SC" font-size="12" fill="#1c1917">2. 安装企业微信插件</text>
+  <!-- 箭头 -->
+  <line x1="300" y1="190" x2="300" y2="210" stroke="#78716c" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- 步骤3 - 分支 -->
+  <rect x="200" y="220" width="200" height="50" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="300" y="250" text-anchor="middle" font-family="Noto Serif SC" font-size="12" fill="#14532d">3. 企业微信后台配置</text>
+  <!-- 子步骤 -->
+  <rect x="50" y="300" width="150" height="40" rx="5" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <text x="125" y="325" text-anchor="middle" font-family="monospace" font-size="10" fill="#166534">创建自建应用</text>
+  
+  <rect x="225" y="300" width="150" height="40" rx="5" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <text x="300" y="325" text-anchor="middle" font-family="monospace" font-size="10" fill="#166534">配置API接收</text>
+  
+  <rect x="400" y="300" width="150" height="40" rx="5" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <text x="475" y="325" text-anchor="middle" font-family="monospace" font-size="10" fill="#166534">获取企业ID</text>
+  
+  <!-- 连接线 -->
+  <line x1="300" y1="270" x2="125" y2="300" stroke="#16a34a" stroke-width="1"/>
+  <line x1="300" y1="270" x2="300" y2="300" stroke="#16a34a" stroke-width="1"/>
+  <line x1="300" y1="270" x2="475" y2="300" stroke="#16a34a" stroke-width="1"/>
+  
+  <!-- 箭头 -->
+  <line x1="300" y1="340" x2="300" y2="360" stroke="#78716c" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- 步骤4 -->
+  <rect x="200" y="370" width="200" height="50" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="300" y="400" text-anchor="middle" font-family="Noto Serif SC" font-size="12" fill="#1e3a8a">4. OpenClaw 配置通道</text>
+  <!-- 箭头 -->
+  <line x1="300" y1="420" x2="300" y2="440" stroke="#78716c" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- 步骤5 -->
+  <rect x="200" y="450" width="200" height="40" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="300" y="475" text-anchor="middle" font-family="Noto Serif SC" font-size="12" fill="#92400e">5. 微信端绑定完成！</text>
+  
+  <!-- 箭头标记定义 -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#78716c"/>
+    </marker>
+  </defs>
+</svg>

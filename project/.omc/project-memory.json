@@ -1,0 +1,201 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1772165338677,
+  "projectRoot": "/root/.openclaw/workspace-resume-manager/project",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "react",
+        "version": "18.2.0",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "18.2.0",
+        "category": "frontend"
+      },
+      {
+        "name": "vite",
+        "version": "5.0.8",
+        "category": "build"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "vite",
+      "build": "tsc && vite build",
+      "preview": "vite preview",
+      "sync-data": "node ../scripts/sync-profile-data.js"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": "ES modules",
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs",
+      "public",
+      "scripts",
+      "src"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "config": {
+      "path": "config",
+      "purpose": "Configuration files",
+      "fileCount": 3,
+      "lastAccessed": 1772165338662,
+      "keyFiles": [
+        "index.html",
+        "package-lock.json",
+        "package.json"
+      ]
+    },
+    "data": {
+      "path": "data",
+      "purpose": "Data files",
+      "fileCount": 0,
+      "lastAccessed": 1772165338663,
+      "keyFiles": []
+    },
+    "dist": {
+      "path": "dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 8,
+      "lastAccessed": 1772165338669,
+      "keyFiles": [
+        "avatar.png",
+        "favicon.png",
+        "index.html",
+        "pdf-preview.html",
+        "remove-watermark.html"
+      ]
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 0,
+      "lastAccessed": 1772165338672,
+      "keyFiles": []
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 8,
+      "lastAccessed": 1772165338672,
+      "keyFiles": [
+        "avatar.png",
+        "favicon.png",
+        "index.html",
+        "pdf-preview.html",
+        "remove-watermark.html"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 33,
+      "lastAccessed": 1772165338673,
+      "keyFiles": [
+        "add-learned-skills.mjs",
+        "check-table.sql",
+        "create-article-queue-table.sql",
+        "create-conversation-logs-table.sql",
+        "create-exec-function-simple.sql"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 12,
+      "lastAccessed": 1772165338673,
+      "keyFiles": [
+        "App.tsx",
+        "App.tsx.bak",
+        "App.tsx.bak2",
+        "constants.ts",
+        "dynamic-data.ts"
+      ]
+    },
+    "dist/assets": {
+      "path": "dist/assets",
+      "purpose": "Static assets",
+      "fileCount": 2,
+      "lastAccessed": 1772165338673,
+      "keyFiles": [
+        "main-Au7u2h4G.js",
+        "main-B1qJB1qy.js"
+      ]
+    },
+    "dist/data": {
+      "path": "dist/data",
+      "purpose": "Data files",
+      "fileCount": 0,
+      "lastAccessed": 1772165338673,
+      "keyFiles": []
+    },
+    "public/assets": {
+      "path": "public/assets",
+      "purpose": "Static assets",
+      "fileCount": 1,
+      "lastAccessed": 1772165338675,
+      "keyFiles": [
+        "main-Au7u2h4G.js"
+      ]
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 24,
+      "lastAccessed": 1772165338675,
+      "keyFiles": [
+        "AncientRoad.tsx",
+        "AtmosphericWords.tsx",
+        "BridgeWaterScene.tsx"
+      ]
+    },
+    "src/lib": {
+      "path": "src/lib",
+      "purpose": "Library code",
+      "fileCount": 1,
+      "lastAccessed": 1772165338675,
+      "keyFiles": [
+        "supabase.ts"
+      ]
+    }
+  },
+  "hotPaths": [],
+  "userDirectives": []
+}

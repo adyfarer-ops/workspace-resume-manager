@@ -1,0 +1,33 @@
+{
+  "appId": "cli_a916c91c4b78dcc6",
+  "appSecret": "3fdgkp79JuWUB9Ee7GsLRcgKkYUllA61",
+  "projectName": "岁时记 - 二十四节气简历",
+  "projectStatus": "completed",
+  "createdAt": "2025-01-20",
+  "lastUpdated": "2025-02-21",
+  "version": "1.0.0",
+  "deployment": {
+    "platform": "feishu",
+    "status": "active",
+    "url": "",
+    "lastDeployed": ""
+  },
+  "features": {
+    "profile": true,
+    "experience": true,
+    "education": true,
+    "skills": true,
+    "projects": true,
+    "contact": true,
+    "notes": true
+  },
+  "techStack": {
+    "frontend": ["React", "TypeScript", "Tailwind CSS", "Vite"],
+    "aiTools": ["Kiro", "Kimi-code"],
+    "build": ["Vite", "TypeScript"]
+  },
+  "theme": {
+    "name": "二十四节气",
+    "description": "融合二十四节气主题、动态水墨意境、节日特效等中国传统文化元素"
+  }
+}

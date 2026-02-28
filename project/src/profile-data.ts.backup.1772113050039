@@ -1,0 +1,265 @@
+// ⚠️ 此文件由脚本自动生成，请勿手动修改
+// 运行 npm run sync-data 重新生成
+// 数据来源: data/*.json
+
+import { Profile } from './types';
+import { Bot, Code2, Palette, Zap, Brain, PenTool, Youtube } from 'lucide-react';
+
+export const PROFILE_DATA: Profile = {
+  "name": "安鼎禹",
+  "title": "Web前端开发工程师 / AI智能体开发 / AI编程",
+  "quote": "偷得浮生半日闲，明天依旧打工人。",
+  "avatar": "https://picsum.photos/400/400?grayscale",
+  "about": "拥有扎实的前端开发经验，并积极拥抱AI技术变革。不仅在传统Web开发领域有丰富的实战经验，更在AI Agent开发、Coze工作流搭建及自媒体运营方面取得了显著成果。具备全栈思维与产品意识，能够利用AI工具赋能开发，实现从0到1的产品落地与流量增长。",
+  "contact": {
+    "age": 27,
+    "location": "河南",
+    "phone": "btoa(\"17630830323\")",
+    "email": "yfarer@163.com"
+  },
+  "education": [
+    {
+      "school": "漯河职业技术职业学院",
+      "major": "计算机应用技术",
+      "period": "2016.09 - 2019.06",
+      "honors": [
+        "2017年11月 荣获国家励志奖学金",
+        "有普通话等级证书",
+        "有计算机等级证书"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "title": "AI 智能体开发",
+      "skills": [
+        "n8n",
+        "Dify",
+        "Coze(扣子)",
+        "Workflow编排",
+        "Prompt Engineering",
+        "角色扮演",
+        "任务拆解"
+      ]
+    },
+    {
+      "title": "Web 开发",
+      "skills": [
+        "Vue3",
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "小程序",
+        "Uni-app"
+      ]
+    },
+    {
+      "title": "AI 工具使用",
+      "skills": [
+        "Kimi.ai",
+        "GPT-4",
+        "Gemini",
+        "Sora2",
+        "即梦",
+        "豆包"
+      ]
+    },
+    {
+      "title": "AI 编程工具",
+      "skills": [
+        "Cursor",
+        "Trae",
+        "Kiro",
+        "Antigravity"
+      ]
+    },
+    {
+      "title": "设计与媒体",
+      "skills": [
+        "Figma",
+        "Stitch",
+        "剪映",
+        "抖音运营",
+        "小红书运营"
+      ]
+    }
+  ],
+  "workExperience": [
+    {
+      "company": "上海星漫科技有限公司",
+      "role": "Web前端开发工程师",
+      "period": "2021.05 - 2023.03",
+      "details": [
+        "负责Web、H5以及小程序页面的开发，根据UI设计图精确还原页面",
+        "负责页面的动态数据交互，与后台人员交接，测试并优化接口",
+        "完成小程序商城支付功能开发",
+        "对接腾讯云直播和云点播，使用live-pusher/live-player组件实现推拉流",
+        "优化公司原有框架，参与公共组件方案设计，提升项目易用性与开发效率",
+        "指导新人，提升团队整体技术水平。"
+      ]
+    },
+    {
+      "company": "上海中圳科技有限公司",
+      "role": "Web前端开发工程师",
+      "period": "2019.07 - 2021.04",
+      "details": [
+        "负责老项目的优化迭代与新页面开发，维护业务稳定性",
+        "对Element组件进行二次封装，提升用户体验与开发效率",
+        "使用Uni-app开发跨平台应用，主导「芥末交友」等社交产品的开发",
+        "根据用户需求完善页面功能，配合后端完成数据交互。"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "AI编程工具应用",
+      "role": "AI效能工程师",
+      "period": "2026年初 - 至今",
+      "tags": [
+        "Kiro",
+        "MCP",
+        "Skills",
+        "飞书",
+        "钉钉",
+        "DeepSeek",
+        "Uni-app",
+        "Vue3",
+        "Supabase"
+      ],
+      "description": [
+        "利用AI编程工具提升开发效率，实现办公自动化"
+      ],
+      "subProjects": [
+        {
+          "id": "automation",
+          "title": "办公自动化",
+          "description": "利用AI编程工具对接MCP，或使用Skills对接飞书/钉钉，实现办公流程自动化。",
+          "tags": [
+            "MCP",
+            "Skills",
+            "飞书",
+            "钉钉"
+          ],
+          "techStack": [
+            "Kiro",
+            "Cursor",
+            "Trae"
+          ]
+        },
+        {
+          "id": "zuihouyici",
+          "title": "最后亿次",
+          "subtitle": "个人小程序（已上架）",
+          "description": "一款以习惯养成为核心的跨平台应用，融合AI陪伴、积分激励、成就系统等功能。以终小喵为灵伴，通过每日打卡、积分兑换奖励、AI对话鼓励等方式，帮助用户建立并坚持良好习惯。",
+          "tags": [
+            "全栈",
+            "已上架"
+          ],
+          "techStack": [
+            "Uni-app",
+            "Vue3",
+            "Pinia",
+            "Supabase"
+          ],
+          "aiTools": [
+            "Kiro",
+            "Cursor",
+            "DeepSeek"
+          ],
+          "platforms": [
+            "H5",
+            "小程序",
+            "App"
+          ],
+          "image": "/ady/images/projects/zuihouyici-icon.png",
+          "links": [
+            {
+              "type": "h5",
+              "label": "H5 网页版",
+              "url": "https://yfarer.cn/zhyc"
+            },
+            {
+              "type": "miniapp",
+              "label": "微信小程序",
+              "qrcode": "/ady/images/projects/zuihouyici-qr.png"
+            }
+          ]
+        },
+        {
+          "id": "solar-resume",
+          "title": "岁时记",
+          "subtitle": "二十四节气简历",
+          "description": "使用AI编程工具开发的诗意简历网站，融合二十四节气主题、动态水墨意境、节日特效等中国传统文化元素，主题随时节自动流转，呈现当下最应景的视觉氛围。",
+          "tags": [
+            "前端",
+            "开源"
+          ],
+          "techStack": [
+            "React",
+            "TypeScript",
+            "Tailwind CSS",
+            "Vite"
+          ],
+          "aiTools": [
+            "Kiro",
+            "Kimi-code"
+          ],
+          "platforms": [
+            "H5",
+            "Web"
+          ],
+          "image": "/ady/images/projects/ink-resume.png",
+          "links": [
+            {
+              "type": "h5",
+              "label": "在线访问",
+              "url": "https://github.com/yourname/ink-resume"
+            }
+          ]
+        }
+      ],
+      "highlight": true
+    },
+    {
+      "name": "Coze工作流与智能体开发",
+      "role": "智能体开发者",
+      "period": "2025年初 - 至今",
+      "tags": [
+        "Coze",
+        "LLM",
+        "Prompt Engineering"
+      ],
+      "description": [
+        "开发多种AI智能体和工作流应用"
+      ],
+      "subProjects": [],
+      "highlight": false
+    },
+    {
+      "name": "自媒体账号运营",
+      "role": "内容创作者",
+      "period": "2023.06 - 至今",
+      "tags": [
+        "抖音",
+        "快手",
+        "小红书",
+        "AIGC"
+      ],
+      "description": [
+        "从0到1搭建个人账号，跟进赛道热点与选题，制作发布高质量内容。"
+      ],
+      "subProjects": [],
+      "highlight": false
+    }
+  ],
+  "notes": []
+};
+
+export const MENU_ITEMS = [
+  { id: 'about', label: '关于', icon: Bot },
+  { id: 'experience', label: '经历', icon: Zap },
+  { id: 'skills', label: '背景', icon: Brain },
+  { id: 'projects', label: '项目', icon: Code2 },
+  { id: 'notes', label: '笔记', icon: PenTool },
+  { id: 'contact', label: '联系', icon: Youtube },
+];

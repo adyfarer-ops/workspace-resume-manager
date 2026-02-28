@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <!-- 背景 -->
+  <rect width="800" height="400" fill="#f5f5f4"/>
+  
+  <!-- 标题 -->
+  <text x="400" y="30" text-anchor="middle" font-family="Noto Serif SC" font-size="20" fill="#1c1917">OpenClaw 微信接入架构</text>
+  
+  <!-- 服务器 -->
+  <rect x="300" y="80" width="200" height="100" rx="10" fill="#e7e5e4" stroke="#78716c" stroke-width="2"/>
+  <text x="400" y="110" text-anchor="middle" font-family="Noto Serif SC" font-size="14" fill="#1c1917">云服务器</text>
+  <text x="400" y="135" text-anchor="middle" font-family="monospace" font-size="11" fill="#57534e">OpenClaw</text>
+  <text x="400" y="155" text-anchor="middle" font-family="monospace" font-size="11" fill="#57534e">公网IP:18789</text>
+  
+  <!-- 企业微信 -->
+  <rect x="50" y="250" width="180" height="80" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="140" y="280" text-anchor="middle" font-family="Noto Serif SC" font-size="14" fill="#14532d">企业微信</text>
+  <text x="140" y="305" text-anchor="middle" font-family="monospace" font-size="10" fill="#166534">自建应用</text>
+  
+  <!-- 个人微信 -->
+  <rect x="570" y="250" width="180" height="80" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="660" y="280" text-anchor="middle" font-family="Noto Serif SC" font-size="14" fill="#1e3a8a">个人微信</text>
+  <text x="660" y="305" text-anchor="middle" font-family="monospace" font-size="10" fill="#1d4ed8">我的企业</text>
+  
+  <!-- 连接线 -->
+  <!-- 服务器到企业微信 -->
+  <line x1="300" y1="150" x2="230" y2="250" stroke="#78716c" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="240" y="190" font-family="monospace" font-size="10" fill="#57534e">API回调</text>
+  
+  <!-- 企业微信到个人微信 -->
+  <line x1="230" y1="290" x2="570" y2="290" stroke="#16a34a" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+  <text x="400" y="280" text-anchor="middle" font-family="monospace" font-size="10" fill="#166534">微信插件</text>
+  
+  <!-- 用户到个人微信 -->
+  <path d="M 700 330 Q 700 370 400 370 Q 100 370 100 330" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="400" y="385" text-anchor="middle" font-family="monospace" font-size="10" fill="#1d4ed8">消息收发</text>
+  
+  <!-- 箭头标记 -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#78716c"/>
+    </marker>
+  </defs>
+  
+  <!-- 说明文字 -->
+  <rect x="50" y="340" width="700" height="45" rx="5" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+  <text x="400" y="360" text-anchor="middle" font-family="Noto Serif SC" font-size="11" fill="#92400e">不走第三方协议，基于企业微信官方接口，零封号风险</text>
+  <text x="400" y="375" text-anchor="middle" font-family="Noto Serif SC" font-size="11" fill="#92400e">企业微信配置完成后，个人微信通过"微信插件"功能自动同步</text>
+</svg>

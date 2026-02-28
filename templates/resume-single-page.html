@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{name}} - 简历</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", "Microsoft YaHei", serif;
+      background: #e7e5e4;
+      min-height: 100vh;
+      padding: 20px;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* 下载按钮 */
+    .download-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: #1c1917;
+      color: #fafaf9;
+      border: none;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 #78716c;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .download-btn:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 #78716c;
+    }
+    
+    .download-btn:active {
+      transform: translate(4px, 4px);
+      box-shadow: none;
+    }
+    
+    .download-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    /* 简历容器 - A4比例 */
+    .resume-wrapper {
+      max-width: 210mm;
+      margin: 60px auto 20px;
+      background: #fafaf9;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    
+    .resume {
+      width: 100%;
+      aspect-ratio: 210 / 297;
+      padding: 30px 35px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* 头部 */
+    .header {
+      display: flex;
+      gap: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #d6d3d1;
+      margin-bottom: 15px;
+    }
+    
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid #78716c;
+      object-fit: cover;
+      background: #d6d3d1;
+      flex-shrink: 0;
+    }
+    
+    .header-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .name {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1c1917;
+      letter-spacing: 0.15em;
+      margin-bottom: 6px;
+    }
+    
+    .title {
+      font-size: 12px;
+      color: #78716c;
+      margin-bottom: 10px;
+    }
+    
+    .title span {
+      display: inline-block;
+      background: #e7e5e4;
+      padding: 2px 8px;
+      margin-right: 6px;
+      border-radius: 2px;
+      font-size: 11px;
+    }
+    
+    .contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 11px;
+      color: #57534e;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    /* 主体内容 */
+    .main-content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .left-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    /* 区块 */
+    .section {
+      background: #f5f5f4;
+      padding: 12px;
+      border-radius: 4px;
+      border-left: 3px solid #78716c;
+    }
+    
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1c1917;
+    }
+    
+    .section-icon {
+      width: 22px;
+      height: 22px;
+      background: #78716c;
+      color: #fafaf9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      border-radius: 3px;
+    }
+    
+    /* 关于我 */
+    .about-text {
+      font-size: 11px;
+      line-height: 1.7;
+      color: #44403c;
+      text-align: justify;
+    }
+    
+    /* 工作经历 */
+    .experience-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .experience-item {
+      position: relative;
+      padding-left: 12px;
+      border-left: 1px solid #d6d3d1;
+    }
+    
+    .experience-item::before {
+      content: "";
+      position: absolute;
+      left: -3px;
+      top: 4px;
+      width: 5px;
+      height: 5px;
+      background: #78716c;
+      border-radius: 50%;
+    }
+    
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    
+    .exp-company {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1c1917;
+    }
+    
+    .exp-role {
+      font-size: 10px;
+      color: #78716c;
+    }
+    
+    .exp-period {
+      font-size: 9px;
+      color: #a8a29e;
+      font-family: monospace;
+    }
+    
+    .exp-desc {
+      font-size: 10px;
+      color: #57534e;
+      line-height: 1.6;
+    }
+    
+    /* 项目 */
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .project-item {
+      background: #fafaf9;
+      padding: 8px;
+      border-radius: 3px;
+      border: 1px solid #e7e5e4;
+    }
+    
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+    
+    .project-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1c1917;
+    }
+    
+    .project-period {
+      font-size: 9px;
+      color: #a8a29e;
+      font-family: monospace;
+    }
+    
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+    
+    .project-tag {
+      font-size: 8px;
+      background: #e7e5e4;
+      color: #57534e;
+      padding: 1px 5px;
+      border-radius: 2px;
+    }
+    
+    .project-desc {
+      font-size: 9px;
+      color: #57534e;
+      line-height: 1.5;
+    }
+    
+    /* 技能 */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    
+    .skill-category {
+      background: #fafaf9;
+      padding: 8px;
+      border-radius: 3px;
+    }
+    
+    .skill-category-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: #1c1917;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .skill-category-title::before {
+      content: "";
+      width: 4px;
+      height: 4px;
+      background: #78716c;
+      border-radius: 50%;
+    }
+    
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+    }
+    
+    .skill-tag {
+      font-size: 8px;
+      background: #e7e5e4;
+      color: #57534e;
+      padding: 2px 5px;
+      border-radius: 2px;
+    }
+    
+    /* 教育 */
+    .education-item {
+      background: #fafaf9;
+      padding: 10px;
+      border-radius: 3px;
+    }
+    
+    .edu-school {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1c1917;
+      margin-bottom: 2px;
+    }
+    
+    .edu-major {
+      font-size: 10px;
+      color: #57534e;
+    }
+    
+    .edu-period {
+      font-size: 9px;
+      color: #a8a29e;
+      font-family: monospace;
+      margin-top: 4px;
+    }
+    
+    /* 页脚 */
+    .footer {
+      margin-top: 15px;
+      padding-top: 12px;
+      border-top: 1px solid #d6d3d1;
+      text-align: center;
+    }
+    
+    .footer-contact {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      font-size: 11px;
+      color: #57534e;
+    }
+    
+    /* 印章 */
+    .seal {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      width: 45px;
+      height: 45px;
+      border: 2px solid rgba(120,113,108,0.25);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: rgba(120,113,108,0.35);
+      transform: rotate(15deg);
+      font-family: "Noto Serif SC", serif;
+    }
+    
+    /* 打印样式 */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .download-btn {
+        display: none;
+      }
+      .resume-wrapper {
+        margin: 0;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="download-btn" onclick="downloadPDF()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+      <polyline points="7 10 12 15 17 10"></polyline>
+      <line x1="12" y1="15" x2="12" y2="3"></line>
+    </svg>
+    下载简历 PDF
+  </button>
+
+  <div class="resume-wrapper">
+    <div class="resume" id="resume">
+      <div class="seal">岁时记</div>
+      
+      <!-- 头部 -->
+      <header class="header">
+        <img class="avatar" src="{{avatar}}" alt="头像">
+        <div class="header-info">
+          <h1 class="name">{{name}}</h1>
+          <div class="title">
+            {{#each titles}}
+            <span>{{this}}</span>
+            {{/each}}
+          </div>
+          <div class="contact">
+            <div class="contact-item">📍 {{location}}</div>
+            <div class="contact-item">🎂 {{age}}岁</div>
+            <div class="contact-item">📱 {{phone}}</div>
+            <div class="contact-item">✉️ {{email}}</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- 主体 -->
+      <div class="main-content">
+        <!-- 左列 -->
+        <div class="left-column">
+          <!-- 关于我 -->
+          <section class="section">
+            <div class="section-title">
+              <div class="section-icon">志</div>
+              <span>关于我</span>
+            </div>
+            <p class="about-text">{{about}}</p>
+          </section>
+
+          <!-- 工作经历 -->
+          <section class="section">
+            <div class="section-title">
+              <div class="section-icon">道</div>
+              <span>工作经历</span>
+            </div>
+            <div class="experience-list">
+              {{#each experiences}}
+              <div class="experience-item">
+                <div class="exp-header">
+                  <div>
+                    <span class="exp-company">{{company}}</span>
+                    <span class="exp-role">{{role}}</span>
+                  </div>
+                  <span class="exp-period">{{period}}</span>
+                </div>
+                <p class="exp-desc">{{description}}</p>
+              </div>
+              {{/each}}
+            </div>
+          </section>
+
+          <!-- 教育背景 -->
+          <section class="section">
+            <div class="section-title">
+              <div class="section-icon">学</div>
+              <span>教育背景</span>
+            </div>
+            {{#each education}}
+            <div class="education-item">
+              <div class="edu-school">{{school}}</div>
+              <div class="edu-major">{{major}}</div>
+              <div class="edu-period">{{period}}</div>
+            </div>
+            {{/each}}
+          </section>
+        </div>
+
+        <!-- 右列 -->
+        <div class="right-column">
+          <!-- 项目经历 -->
+          <section class="section">
+            <div class="section-title">
+              <div class="section-icon">造</div>
+              <span>项目经历</span>
+            </div>
+            <div class="project-list">
+              {{#each projects}}
+              <div class="project-item">
+                <div class="project-header">
+                  <span class="project-name">{{name}}</span>
+                  <span class="project-period">{{period}}</span>
+                </div>
+                <div class="project-tags">
+                  {{#each tags}}
+                  <span class="project-tag">{{this}}</span>
+                  {{/each}}
+                </div>
+                <p class="project-desc">{{description}}</p>
+              </div>
+              {{/each}}
+            </div>
+          </section>
+
+          <!-- 技能 -->
+          <section class="section">
+            <div class="section-title">
+              <div class="section-icon">技</div>
+              <span>技能</span>
+            </div>
+            <div class="skills-grid">
+              {{#each skillCategories}}
+              <div class="skill-category">
+                <div class="skill-category-title">{{title}}</div>
+                <div class="skill-tags">
+                  {{#each skills}}
+                  <span class="skill-tag">{{name}}</span>
+                  {{/each}}
+                </div>
+              </div>
+              {{/each}}
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- 页脚 -->
+      <footer class="footer">
+        <div class="footer-contact">
+          <span>📧 {{email}}</span>
+          <span>📱 {{phone}}</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    async function downloadPDF() {
+      const btn = document.querySelector('.download-btn');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '生成中...';
+      btn.disabled = true;
+
+      try {
+        const { jsPDF } = window.jspdf;
+        const resume = document.getElementById('resume');
+        
+        // 使用 html2canvas 截图
+        const canvas = await html2canvas(resume, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#fafaf9',
+          logging: false
+        });
+
+        // 创建 PDF (A4)
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = 210;
+        const pdfHeight = 297;
+        
+        // 计算图片尺寸以适应 A4
+        const imgWidth = canvas.width;
+        const imgHeight = canvas.height;
+        const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+        
+        const imgX = (pdfWidth - imgWidth * ratio) / 2;
+        const imgY = 0;
+        
+        // 添加图片到 PDF
+        const imgData = canvas.toDataURL('image/png');
+        pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+        
+        // 下载
+        pdf.save('{{name}}_简历.pdf');
+        
+      } catch (error) {
+        console.error('PDF生成失败:', error);
+        alert('PDF生成失败，请重试');
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>

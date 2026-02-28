@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>安鼎禹 - 简历</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", "Microsoft YaHei", serif;
+      background: #e7e5e4;
+      min-height: 100vh;
+      padding: 20px;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* 下载按钮 */
+    .download-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: #1c1917;
+      color: #fafaf9;
+      border: none;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 #78716c;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .download-btn:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 #78716c;
+    }
+    
+    .download-btn:active {
+      transform: translate(4px, 4px);
+      box-shadow: none;
+    }
+    
+    .download-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    /* 简历容器 - A4比例 */
+    .resume-wrapper {
+      max-width: 210mm;
+      margin: 60px auto 20px;
+      background: #fafaf9;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    
+    .resume {
+      width: 100%;
+      aspect-ratio: 210 / 297;
+      padding: 30px 35px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* 头部 */
+    .header {
+      display: flex;
+      gap: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #d6d3d1;
+      margin-bottom: 15px;
+    }
+    
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid #78716c;
+      object-fit: cover;
+      background: #d6d3d1;
+      flex-shrink: 0;
+    }
+    
+    .header-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .name {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1c1917;
+      letter-spacing: 0.15em;
+      margin-bottom: 6px;
+    }
+    
+    .title {
+      font-size: 12px;
+      color: #78716c;
+      margin-bottom: 10px;
+    }
+    
+    .title span {
+      display: inline-block;
+      background: #e7e5e4;
+      padding: 2px 8px;
+      margin-right: 6px;
+      border-radius: 2px;
+      font-size: 11px;
+    }
+    
+    .contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 11px;
+      color: #57534e;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    /* 主体内容 */
+    .main-content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .left-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    /* 区块 */
+    .section {
+      background: #f5f5f4;
+      padding: 12px;
+      border-radius: 4px;
+      border-left: 3px solid #78716c;
+    }
+    
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1c1917;
+    }
+    
+    .section-icon {
+      width: 22px;
+      height: 22px;
+      background: #78716c;
+      color: #fafaf9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      border-radius: 3px;
+    }
+    
+    /* 关于我 */
+    .about-text {
+      font-size: 11px;
+      line-height: 1.7;
+      color: #44403c;
+      text-align: justify;
+    }
+    
+    /* 工作经历 */
+    .experience-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .experience-item {
+      position: relative;
+      padding-left: 12px;
+      border-left: 1px solid #d6d3d1;
+    }
+    
+    .experience-item::before {
+      content: "";
+      position: absolute;
+      left: -3px;
+      top: 4px;
+      width: 5px;
+      height: 5px;
+      background: #78716c;
+      border-radius: 50%;
+    }
+    
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    
+    .exp-company {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1c1917;
+    }
+    
+    .exp-role {
+      font-size: 10px;
+      color: #78716c;
+    }
+    
+    .exp-period {
+      font-size: 9px;
+      color: #a8a29e;
+      font-family: monospace;
+    }
+    
+    .exp-desc {
+      font-size: 10px;
+      color: #57534e;
+      line-height: 1.6;
+    }
+    
+    /* 项目 */
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .project-item {
+      background: #fafaf9;
+      padding: 8px;
+      border-radius: 3px;
+      border: 1px solid #e7e5e4;
+    }
+    
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+    
+    .project-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1c1917;
+    }
+    
+    .project-period {
+      font-size: 9px;
+      color: #a8a29e;
+      font-family: monospace;
+    }
+    
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+    
+    .project-tag {
+      font-size: 8px;
+      background: #e7e5e4;
+      color: #57534e;
+      padding: 1px 5px;
+      border-radius: 2px;
+    }
+    
+    .project-desc {
+      font-size: 9px;
+      color: #57534e;
+      line-height: 1.5;
+    }
+    
+    /* 技能 */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    
+    .skill-category {
+      background: #fafaf9;
+      padding: 8px;
+      border-radius: 3px;
+    }
+    
+    .skill-category-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: #1c1917;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .skill-category-title::before {
+      content: "";
+      width: 4px;
+      height: 4px;
+      background: #78716c;
+      border-radius: 50%;
+    }
+    
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+    }
+    
+    .skill-tag {
+      font-size: 8px;
+      background: #e7e5e4;
+      color: #57534e;
+      padding: 2px 5px;
+      border-radius: 2px;
+    }
+    
+    /* 教育 */
+    .education-item {
+      background: #fafaf9;
+      padding: 10px;
+      border-radius: 3px;
+    }
+    
+    .edu-school {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1c1917;
+      margin-bottom: 2px;
+    }
+    
+    .edu-major {
+      font-size: 10px;
+      color: #57534e;
+    }
+    
+    .edu-period {
+      font-size: 9px;
+      color: #a8a29e;
+      font-family: monospace;
+      margin-top: 4px;
+    }
+    
+    /* 页脚 */
+    .footer {
+      margin-top: 15px;
+      padding-top: 12px;
+      border-top: 1px solid #d6d3d1;
+      text-align: center;
+    }
+    
+    .footer-contact {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      font-size: 11px;
+      color: #57534e;
+    }
+    
+    /* 印章 */
+    .seal {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      width: 45px;
+      height: 45px;
+      border: 2px solid rgba(120,113,108,0.25);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: rgba(120,113,108,0.35);
+      transform: rotate(15deg);
+      font-family: "Noto Serif SC", serif;
+    }
+    
+    /* 打印样式 */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .download-btn {
+        display: none;
+      }
+      .resume-wrapper {
+        margin: 0;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="download-btn" onclick="downloadPDF()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+      <polyline points="7 10 12 15 17 10"></polyline>
+      <line x1="12" y1="15" x2="12" y2="3"></line>
+    </svg>
+    下载简历 PDF
+  </button>
+
+  <div class="resume-wrapper">
+    <div class="resume" id="resume">
+      <div class="seal">岁时记</div>
+      
+      <!-- 头部 -->
+      <header class="header">
+        <img class="avatar" src="https://picsum.photos/400/400?grayscale" alt="头像">
+        <div class="header-info">
+          <h1 class="name">安鼎禹</h1>
+          <div class="title">
+            <span>Web前端开发工程师</span>
+            <span>AI智能体开发</span>
+            <span>AI编程</span>
+          </div>
+          <div class="contact">
+            <div class="contact-item">📍 河南</div>
+            <div class="contact-item">🎂 27岁</div>
+            <div class="contact-item">📱 17630830323</div>
+            <div class="contact-item">✉️ yfarer@163.com</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- 主体 -->
+      <div class="main-content">
+        <!-- 左列 -->
+        <div class="left-column">
+          <!-- 关于我 -->
+          <section class="section">
+            <div class="section-title">
+              <div class="section-icon">志</div>
+              <span>关于我</span>
+            </div>
+            <p class="about-text">拥有扎实的前端开发经验，并积极拥抱AI技术变革。在AI Agent开发与自动化系统构建方面持续深耕，能够独立完成从需求分析、系统设计到部署运维的全流程开发；在Web工程化方面，具备前后端数据联动、数据库设计与优化、以及全栈应用快速交付的能力；在AI工具应用方面，熟练运用各类AI编程工具与智能体平台，实现开发效率的指数级提升。不仅在传统Web开发领域有丰富的实战经验，更在AI Agent开发、Coz...</p>
+          </section>
+
+          <!-- 工作经历 -->
+          <section class="section">
+            <div class="section-title">
+              <div class="section-icon">道</div>
+              <span>工作经历</span>
+            </div>
+            <div class="experience-list">
+              <div class="experience-item">
+                <div class="exp-header">
+                  <div>
+                    <span class="exp-company">上海星漫科技有限公司</span>
+                    <span class="exp-role">Web前端开发工程师</span>
+                  </div>
+                  <span class="exp-period">2021.05 - 2023.03</span>
+                </div>
+                <p class="exp-desc">负责Web、H5以及小程序页面的开发，根据UI设计图精确还原页面；负责页面的动态数据交互，与后台人员交接，测试并优化接口；完成小程序商城支付功能开发；对接腾讯云直播和云点播，使用live-pusher...</p>
+              </div>
+              <div class="experience-item">
+                <div class="exp-header">
+                  <div>
+                    <span class="exp-company">上海中圳科技有限公司</span>
+                    <span class="exp-role">Web前端开发工程师</span>
+                  </div>
+                  <span class="exp-period">2019.07 - 2021.04</span>
+                </div>
+                <p class="exp-desc">负责老项目的优化迭代与新页面开发，维护业务稳定性；对Element组件进行二次封装，提升用户体验与开发效率；使用Uni-app开发跨平台应用，主导「芥末交友」等社交产品的开发；根据用户需求完善页面功能...</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 教育背景 -->
+          <section class="section">
+            <div class="section-title">
+              <div class="section-icon">学</div>
+              <span>教育背景</span>
+            </div>
+            <div class="education-item">
+              <div class="edu-school">漯河职业技术职业学院</div>
+              <div class="edu-major">计算机应用技术</div>
+              <div class="edu-period">2016.09 - 2019.06</div>
+            </div>
+          </section>
+        </div>
+
+        <!-- 右列 -->
+        <div class="right-column">
+          <!-- 项目经历 -->
+          <section class="section">
+            <div class="section-title">
+              <div class="section-icon">造</div>
+              <span>项目经历</span>
+            </div>
+            <div class="project-list">
+              <div class="project-item">
+                <div class="project-header">
+                  <span class="project-name">AI编程工具应用</span>
+                  <span class="project-period">2026年初 - 至今</span>
+                </div>
+                <div class="project-tags">
+                  <span class="project-tag">Kiro</span>
+                  <span class="project-tag">MCP</span>
+                  <span class="project-tag">Skills</span>
+                  <span class="project-tag">飞书</span>
+                  <span class="project-tag">钉钉</span>
+                  <span class="project-tag">DeepSeek</span>
+                </div>
+                <p class="project-desc">利用AI编程工具提升开发效率，实现办公自动化...</p>
+              </div>
+              <div class="project-item">
+                <div class="project-header">
+                  <span class="project-name">Coze工作流与智能体开发</span>
+                  <span class="project-period">2025年初 - 至今</span>
+                </div>
+                <div class="project-tags">
+                  <span class="project-tag">Coze</span>
+                  <span class="project-tag">LLM</span>
+                  <span class="project-tag">Prompt Engineering</span>
+                </div>
+                <p class="project-desc">开发多种AI智能体和工作流应用...</p>
+              </div>
+              <div class="project-item">
+                <div class="project-header">
+                  <span class="project-name">自媒体账号运营</span>
+                  <span class="project-period">2023.06 - 至今</span>
+                </div>
+                <div class="project-tags">
+                  <span class="project-tag">抖音</span>
+                  <span class="project-tag">快手</span>
+                  <span class="project-tag">小红书</span>
+                  <span class="project-tag">AIGC</span>
+                </div>
+                <p class="project-desc">从0到1搭建个人账号，跟进赛道热点与选题，制作发布高质量内容。...</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 技能 -->
+          <section class="section">
+            <div class="section-title">
+              <div class="section-icon">技</div>
+              <span>技能</span>
+            </div>
+            <div class="skills-grid">
+              <div class="skill-category">
+                <div class="skill-category-title">AI 智能体开发</div>
+                <div class="skill-tags">
+                  <span class="skill-tag">n8n</span>
+                  <span class="skill-tag">Dify</span>
+                  <span class="skill-tag">Coze(扣子)</span>
+                  <span class="skill-tag">Workflow编排</span>
+                  <span class="skill-tag">Prompt Engineering</span>
+                  <span class="skill-tag">角色扮演</span>
+                  <span class="skill-tag">任务拆解</span>
+                </div>
+              </div>
+              <div class="skill-category">
+                <div class="skill-category-title">Web 开发</div>
+                <div class="skill-tags">
+                  <span class="skill-tag">Vue3</span>
+                  <span class="skill-tag">HTML5</span>
+                  <span class="skill-tag">CSS3</span>
+                  <span class="skill-tag">JavaScript</span>
+                  <span class="skill-tag">小程序</span>
+                  <span class="skill-tag">Uni-app</span>
+                </div>
+              </div>
+              <div class="skill-category">
+                <div class="skill-category-title">AI 工具使用</div>
+                <div class="skill-tags">
+                  <span class="skill-tag">Kimi.ai</span>
+                  <span class="skill-tag">GPT-4</span>
+                  <span class="skill-tag">Gemini</span>
+                  <span class="skill-tag">Sora2</span>
+                  <span class="skill-tag">即梦</span>
+                  <span class="skill-tag">豆包</span>
+                </div>
+              </div>
+              <div class="skill-category">
+                <div class="skill-category-title">AI 编程工具</div>
+                <div class="skill-tags">
+                  <span class="skill-tag">Cursor</span>
+                  <span class="skill-tag">Trae</span>
+                  <span class="skill-tag">Kiro</span>
+                  <span class="skill-tag">Antigravity</span>
+                </div>
+              </div>
+              <div class="skill-category">
+                <div class="skill-category-title">设计与媒体</div>
+                <div class="skill-tags">
+                  <span class="skill-tag">Figma</span>
+                  <span class="skill-tag">Stitch</span>
+                  <span class="skill-tag">剪映</span>
+                  <span class="skill-tag">抖音运营</span>
+                  <span class="skill-tag">小红书运营</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- 页脚 -->
+      <footer class="footer">
+        <div class="footer-contact">
+          <span>📧 yfarer@163.com</span>
+          <span>📱 17630830323</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    async function downloadPDF() {
+      const btn = document.querySelector('.download-btn');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '生成中...';
+      btn.disabled = true;
+
+      try {
+        const { jsPDF } = window.jspdf;
+        const resume = document.getElementById('resume');
+        
+        // 使用 html2canvas 截图
+        const canvas = await html2canvas(resume, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#fafaf9',
+          logging: false
+        });
+
+        // 创建 PDF (A4)
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = 210;
+        const pdfHeight = 297;
+        
+        // 计算图片尺寸以适应 A4
+        const imgWidth = canvas.width;
+        const imgHeight = canvas.height;
+        const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+        
+        const imgX = (pdfWidth - imgWidth * ratio) / 2;
+        const imgY = 0;
+        
+        // 添加图片到 PDF
+        const imgData = canvas.toDataURL('image/png');
+        pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+        
+        // 下载
+        pdf.save('安鼎禹_简历.pdf');
+        
+      } catch (error) {
+        console.error('PDF生成失败:', error);
+        alert('PDF生成失败，请重试');
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
