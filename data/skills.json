@@ -19,7 +19,15 @@
       },
       {
         "category": "AI 多 Agent 协作平台",
-        "items": ["OpenClaw", "多 Agent 协同开发", "自动化工作流", "技能学习追踪", "简历管理 Agent", "代码生成 Agent", "数据爬取 Agent"]
+        "items": [
+          "OpenClaw",
+          "多 Agent 协同开发 (resume-manager/code-master/daily-assistant/data-crawler)",
+          "岁时记简历网站开发",
+          "PDF 简历生成系统 (Puppeteer)",
+          "自动化工作流 (每周个人介绍/技能追踪)",
+          "技能学习追踪 (从 Agent 会话提取)",
+          "Git 版本管理集成"
+        ]
       },
       {
         "category": "设计与媒体",
