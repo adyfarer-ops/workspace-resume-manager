@@ -65,6 +65,28 @@
           "techStack": ["sing-box", "Xray", "Clash", "systemd", "Docker", "Linux", "VLESS", "Reality"],
           "aiTools": ["Kimi-code", "Cursor", "Kiro"],
           "platforms": ["Linux", "VPS", "Ubuntu"]
+        },
+        {
+          "id": "openclaw-resume",
+          "title": "OpenClaw多Agent简历管理系统",
+          "subtitle": "AI驱动的个人工作流平台",
+          "description": "基于OpenClaw多Agent协作平台构建的完整个人AI工作流体系，实现简历管理、技能追踪、自动化周报等场景的智能化管理。\n\n核心功能：\n• 多Agent协同：resume-manager(简历管理)、code-master(代码生成)、daily-assistant(日常提醒)、data-crawler(数据爬取)\n• 自动化工作流：每周一自动更新个人介绍、技能学习记录，同步到Supabase数据库\n• 技能学习追踪：从所有Agent会话中自动提取技能关键词，生成技能学习周报/月报\n• PDF简历生成：基于Puppeteer的PDF生成API，实现单页无限高度PDF，复刻网站中式风格\n• Git版本管理：建立GitHub仓库，每次修改自动提交记录\n\n技术栈：OpenClaw、React、TypeScript、Tailwind CSS、Supabase、Puppeteer、Git",
+          "tags": ["OpenClaw", "多Agent协作", "自动化", "全栈"],
+          "techStack": ["OpenClaw", "React", "TypeScript", "Tailwind CSS", "Supabase", "Puppeteer"],
+          "aiTools": ["resume-manager", "code-master", "daily-assistant", "data-crawler"],
+          "platforms": ["Web", "H5"],
+          "links": [
+            {
+              "type": "github",
+              "label": "GitHub仓库",
+              "url": "https://github.com/adyfarer-ops/workspace-resume-manager"
+            },
+            {
+              "type": "h5",
+              "label": "在线访问",
+              "url": "https://yfarer.cn/ady"
+            }
+          ]
         }
       ]
     },
