@@ -68,12 +68,12 @@
         },
         {
           "id": "openclaw-resume",
-          "title": "OpenClaw多Agent简历管理系统",
+          "title": "OpenClaw多Agent管理系统",
           "subtitle": "AI驱动的个人工作流平台",
-          "description": "基于OpenClaw多Agent协作平台构建的完整个人AI工作流体系，实现简历管理、技能追踪、自动化周报等场景的智能化管理。\n\n核心功能：\n• 多Agent协同：resume-manager(简历管理)、code-master(代码生成)、daily-assistant(日常提醒)、data-crawler(数据爬取)\n• 自动化工作流：每周一自动更新个人介绍、技能学习记录，同步到Supabase数据库\n• 技能学习追踪：从所有Agent会话中自动提取技能关键词，生成技能学习周报/月报\n• PDF简历生成：基于Puppeteer的PDF生成API，实现单页无限高度PDF，复刻网站中式风格\n• Git版本管理：建立GitHub仓库，每次修改自动提交记录\n\n技术栈：OpenClaw、React、TypeScript、Tailwind CSS、Supabase、Puppeteer、Git",
+          "description": "基于OpenClaw多Agent协作平台构建的完整个人AI工作流体系，通过多个专用Agent协同实现场景智能化管理。\n\n核心Agent及功能：\n• wechat-publisher：微信公众号AI代运营，自动抓取素材、智能排版、定时发布\n• daily-assistant：日常助手，支持定时任务、提醒、飞书集成\n• resume-manager：简历管理，技能学习追踪，每周自动生成技能周报，同步到Supabase\n• code-master：代码助手，AI编程辅助\n\n核心能力：\n• 多Agent协同：4个专用Agent各司其职，通过会话消息自动触发任务\n• 自动化工作流：每周一自动分析所有Agent会话，更新个人介绍与技能标签\n• 技能学习追踪：从所有Agent会话中自动提取技能关键词，生成学习周报\n• 数据库驱动：Supabase实时存储，网站直接读取，无需重新构建\n\n技术栈：OpenClaw、React、TypeScript、Tailwind CSS、Supabase、Puppeteer、Git",
           "tags": ["OpenClaw", "多Agent协作", "自动化", "全栈"],
           "techStack": ["OpenClaw", "React", "TypeScript", "Tailwind CSS", "Supabase", "Puppeteer"],
-          "aiTools": ["resume-manager", "code-master", "daily-assistant", "data-crawler"],
+          "aiTools": ["wechat-publisher", "daily-assistant", "resume-manager", "code-master"],
           "platforms": ["Web", "H5"],
           "links": [
             {

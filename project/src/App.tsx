@@ -352,7 +352,7 @@ export default function App() {
         <Section id="projects" title="寒舍 · 造物" icon={<Code2 />}>
            <div className="space-y-6">
               {displayData.projects.map((project, index) => (
-                 <div key={index} className="group relative bg-[#f5f5f4]/80 border border-stone-200 shadow-sm transition-all duration-500 hover:shadow-lg hover:bg-[#fffcf5] overflow-hidden">
+                 <div key={index} className="group relative bg-[#f5f5f4]/80 border-2 border-stone-300 shadow-sm transition-all duration-500 hover:shadow-lg hover:bg-[#fffcf5] hover:border-stone-400 overflow-hidden">
                     {/* Top accent bar */}
                     <div className="h-1 bg-[#1c1917] transform scale-x-95 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
                     
@@ -392,8 +392,8 @@ export default function App() {
                               key={sub.id}
                               className={`relative transition-all duration-300 ${
                                 sub.links && sub.links.length > 0 
-                                  ? 'bg-white border border-stone-200' 
-                                  : 'bg-stone-50/50 border border-stone-200/60'
+                                  ? 'bg-white border border-stone-200 shadow-sm hover:shadow-md hover:border-stone-300' 
+                                  : 'bg-stone-50/50 border border-stone-200/60 hover:bg-stone-100/50'
                               }`}
                             >
                               <div className="flex flex-col md:flex-row gap-5 p-5">

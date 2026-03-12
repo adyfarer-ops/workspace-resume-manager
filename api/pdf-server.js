@@ -99,8 +99,23 @@ async function generatePDF() {
   
   // 处理头像 URL
   let avatarUrl = profile.avatar;
+  if (!avatarUrl || avatarUrl.includes('picsum.photos')) {
+    avatarUrl = '/ady/avatar.png';
+  }
   if (avatarUrl.startsWith('/')) {
     avatarUrl = 'https://yfarer.cn' + avatarUrl;
+  }
+  
+  // 将头像转为 base64
+  let avatarBase64 = '';
+  try {
+    const avatarPath = '/var/www/ady/avatar.png';
+    if (fs.existsSync(avatarPath)) {
+      const avatarBuffer = fs.readFileSync(avatarPath);
+      avatarBase64 = 'data:image/png;base64,' + avatarBuffer.toString('base64');
+    }
+  } catch (e) {
+    console.error('头像读取失败:', e);
   }
   
   // 动态生成个人介绍（与网站一致）
@@ -140,7 +155,7 @@ async function generatePDF() {
   
   const templateData = {
     name: profile.name,
-    avatar: avatarUrl,
+    avatar: avatarBase64 || avatarUrl,
     title: profile.title,
     quote: profile.quote,
     age: profile.contact?.age,
@@ -205,6 +220,19 @@ async function generatePDF() {
 }
 
 app.get('/api/resume/pdf', async (req, res) => {
+  try {
+    const pdf = await generatePDF();
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'inline; filename="resume.pdf"');
+    res.send(pdf);
+  } catch (error) {
+    console.error('PDF Error:', error);
+    res.status(500).json({ error: 'PDF生成失败', msg: error.message });
+  }
+});
+
+// 兼容 /ady/api/resume/pdf 路径
+app.get('/ady/api/resume/pdf', async (req, res) => {
   try {
     const pdf = await generatePDF();
     res.setHeader('Content-Type', 'application/pdf');

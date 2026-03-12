@@ -19,7 +19,7 @@ const skillKeywords = {
   'AI 智能体开发': ['n8n', 'dify', 'coze', 'workflow', 'prompt', 'agent', '智能体', '工作流', 'mcp', 'skills'],
   'Web 开发': ['vue', 'react', 'javascript', 'typescript', 'html', 'css', '前端', 'uni-app', 'tailwind'],
   'AI 工具使用': ['kimi', 'gpt', 'gemini', 'sora', 'claude', 'ai工具', '豆包', '即梦'],
-  'AI 编程工具': ['cursor', 'trae', 'kiro', 'claude code', 'ai编程', 'antigravity'],
+  'AI 编程工具': ['cursor', 'trae', 'kiro', 'claude code', 'antigravity'],
   '设计与媒体': ['figma', 'stitch', '剪映', '抖音', '小红书', '运营', '视频剪辑'],
   '数据库': ['supabase', 'postgresql', 'mysql', '数据库', 'redis'],
   'DevOps': ['docker', 'nginx', 'linux', '部署', '服务器', 'systemd', 'sing-box', 'vless', 'xray']
@@ -39,20 +39,27 @@ async function extractSkillsFromAllAgents() {
     return allSkills;
   }
   
-  // 获取上周一到周日的日期范围
+  // 获取上周+本周的日期范围（周一到周日）
   const today = new Date();
   const dayOfWeek = today.getDay(); // 0=周日, 1=周一
   const daysSinceMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
   
-  const lastMonday = new Date(today);
-  lastMonday.setDate(today.getDate() - daysSinceMonday - 7);
+  // 本周一
+  const thisMonday = new Date(today);
+  thisMonday.setDate(today.getDate() - daysSinceMonday);
+  thisMonday.setHours(0, 0, 0, 0);
+  
+  // 上周一（两周前）
+  const lastMonday = new Date(thisMonday);
+  lastMonday.setDate(thisMonday.getDate() - 7);
   lastMonday.setHours(0, 0, 0, 0);
   
-  const lastSunday = new Date(lastMonday);
-  lastSunday.setDate(lastSunday.getDate() + 7);
-  lastSunday.setHours(23, 59, 59, 999);
+  // 本周日
+  const thisSunday = new Date(thisMonday);
+  thisSunday.setDate(thisSunday.getDate() + 6);
+  thisSunday.setHours(23, 59, 59, 999);
   
-  console.log(`📅 时间范围: ${lastMonday.toISOString()} - ${lastSunday.toISOString()}`);
+  console.log(`📅 时间范围: ${lastMonday.toISOString()} - ${thisSunday.toISOString()} (上周 + 本周)`);
   
   // 遍历所有 agent
   for (const agentName of fs.readdirSync(agentsDir)) {
@@ -69,7 +76,7 @@ async function extractSkillsFromAllAgents() {
         path: path.join(sessionsDir, f),
         mtime: fs.statSync(path.join(sessionsDir, f)).mtime
       }))
-      .filter(f => f.mtime >= lastMonday && f.mtime <= lastSunday)
+      .filter(f => f.mtime >= lastMonday && f.mtime <= thisSunday)
       .sort((a, b) => b.mtime - a.mtime);
     
     console.log(`  找到 ${jsonlFiles.length} 个上周会话文件`);
@@ -147,7 +154,55 @@ async function updateSkillsToDatabase(skills) {
   weekStart.setDate(weekStart.getDate() - (weekStart.getDay() || 7) + 1);
   const dateStr = weekStart.toISOString().split('T')[0];
   
-  for (const [category, skillList] of Object.entries(skillsByCategory)) {
+  // 获取现有分类ID映射
+  const { data: categories } = await supabase.from('skill_categories').select('id, title');
+  const categoryIdMap = {};
+  for (const cat of categories || []) {
+    categoryIdMap[cat.title] = cat.id;
+  }
+  
+  // 获取现有技能列表
+  const { data: existingSkills } = await supabase.from('skills').select('name');
+  const existingSkillNames = new Set((existingSkills || []).map(s => s.name.toLowerCase()));
+  
+    // 过滤函数：排除与分类标题重复的技能
+  const filterDuplicateSkills = (category, skills) => {
+    const categoryLower = category.toLowerCase();
+    return skills.filter(skill => {
+      const skillLower = skill.toLowerCase();
+      
+      // 排除与分类标题完全相同的
+      if (skillLower === categoryLower) return false;
+      
+      // 排除与分类名称高度相似的关键词
+      const excludeList = {
+        'AI 智能体开发': ['ai', '智能体', '开发', 'agent', 'skills', 'prompt', 'workflow', 'coze', '工作流'],
+        'Web 开发': ['web', '开发', '前端', 'html', 'css', 'javascript'],
+        'AI 工具使用': ['ai', '工具', '使用', 'kimi', 'gpt', 'claude', 'sora'],
+        'AI 编程工具': ['ai', '编程', '工具', 'ai编程'],
+        '设计与媒体': ['设计', '媒体', '运营', '抖音', '小红书'],
+        '数据库': ['数据', '库', '数据库'],
+        'DevOps': ['devops', '运维', '部署', '服务器', 'sing-box', 'vless', 'xray']
+      };
+      
+      const excludes = excludeList[category] || [];
+      if (excludes.includes(skillLower)) return false;
+      
+      // 排除包含分类核心词的（如"数据库"类别中的"数据库"）
+      if (categoryLower.includes('数据库') && skillLower === '数据库') return false;
+      if (categoryLower.includes('ai工具') && (skillLower === 'ai工具' || skillLower === 'ai')) return false;
+      if (categoryLower.includes('ai智能体') && skillLower === '智能体') return false;
+      if (categoryLower.includes('ai编程') && skillLower === 'ai编程') return false;
+      
+      return true;
+    });
+  };
+
+for (const [category, skillList] of Object.entries(skillsByCategory)) {
+    // 过滤掉重复的技能
+    const filteredSkillList = filterDuplicateSkills(category, skillList);
+    console.log(`  ${category}: ${skillList.length} -> ${filteredSkillList.length} 个技能 (过滤后)`);
+    // 保存学习记录
     const { error } = await supabase
       .from('skill_learning_logs')
       .insert({
@@ -155,14 +210,30 @@ async function updateSkillsToDatabase(skills) {
         content: `本周从所有 Agent 会话中提取技能`,
         extracted_skills: skillList,
         related_skill_category: category,
-        confidence_score: 85,
-        source_agents: [...new Set(skills.filter(s => s.category === category).map(s => s.agent))]
+        confidence_score: 85
       });
     
     if (error) {
       console.error(`❌ 保存失败 (${category}):`, error);
     } else {
       console.log(`✅ 已保存: ${category} (${skillList.length} 个技能)`);
+    }
+    
+    // 同步新技能到 skills 表
+    const categoryId = categoryIdMap[category];
+    if (categoryId) {
+      for (const skillName of skillList) {
+        if (!existingSkillNames.has(skillName.toLowerCase())) {
+          const { error: insertError } = await supabase.from('skills').insert({
+            category_id: categoryId,
+            name: skillName
+          });
+          if (!insertError) {
+            console.log(`✅ 新增技能: ${skillName} (${category})`);
+            existingSkillNames.add(skillName.toLowerCase());
+          }
+        }
+      }
     }
   }
   
